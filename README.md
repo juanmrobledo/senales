@@ -1,1 +1,1 @@
-# senales
+# señales
