@@ -51,8 +51,9 @@ fs = 44100;
                                         'HalfPowerFrequency1',lowBand, ...
                                         'HalfPowerFrequency2',upBand, ...
                                         'SampleRate',fs);       
-     end
+   end
 
+     %asdasd
  
 %% ploteo de filtro de octava en 1k para ejemplo
 
