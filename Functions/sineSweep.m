@@ -1,34 +1,41 @@
-function  sineSweep()
-%SineSweep Summary of this function goes here
-%   Detailed explanation goes here
+function  sineSweep(f1,f2,Time)
+%Esta función genera un SineSweep logarítmico, y el mismo con su filtro
+%inverso aplicado
+%   Inputs:
+%          f1: Frecuencia Inicial
+%          f2: Frecuencia Final
+%          Time: tiempo en segundos 
 
 %% Parametros Iniciales
-w1 = 2*pi*20;
-w2 = 2*pi*20000;
-Time = 5;
+w1 = 2*pi*f1;
+w2 = 2*pi*f2;
 SampleRate = 44100;
 
 %% Generación de Sine Sweep
 
-    T = Time*SampleRate;
-    S = linspace(0,Time,T); %Eje Temporal
-    K = (Time*w1)/(log(w2/w1));
-    L = (Time/(log(w2/w1)));
+        N = Time*SampleRate;
+        T = linspace(0,Time,N); 
 
-SineSweep = sin(K*(exp(S/L)-1));
-SineSweep = SineSweep*0.9;  %Ajuste por clipeo
+        k = (Time*w1)/log(w2/w1);
+        l = Time/log(w2/w1);
 
-audiowrite('Sine Sweep.wav',SineSweep,SampleRate);
+        SineSweep = sin(k*(exp(T./l)-1));  
+        SineSweep = SineSweep.*0.7; %Ajuste por clipeo
+        %SineSweep = normalize(SineSweep);
 
+        audiowrite('Sine Sweep.wav',SineSweep,SampleRate);
+        
 %% Inversion
 
-    W = K/L*exp(T/L);
-    M = w1./(2*pi*W);
+        w = (k/l)*exp(T./l);
+        m = w1./(2*pi*w);
 
-invertedSineSweep = M.*(flip(SineSweep));
+        InvertedFilt = m.*wrev(SineSweep);
+        InvertedFilt = normalize(InvertedFilt);
     
-audiowrite('Inverted Sine Sweep.wav',invertedSineSweep,SampleRate);
-    
+            
+        audiowrite('inverted.wav',InvertedFilt,SampleRate);
+
 
 end
 

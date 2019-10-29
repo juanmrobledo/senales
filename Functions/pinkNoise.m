@@ -1,13 +1,10 @@
 function [PinkNoise,Fs] = pinkNoise(Time)
 % pinkNoise genera un ruido rosa, a partir de un ruido blanco filtrado con una caída de 3 dB/octava.
 %   Inputs:
-%       SamplingRate: Frecuencia de Muestreo
-%       time: Tiempo en segundos
+%       Time: Tiempo en segundos
 %   Outputs:
-%        PinkNoise: Vector ruido rosa
-%       Fs: Frecuencia de Muestreo   Detailed explanation goes here
-%
-SamplingRate = 44100
+%        archivo .wav con ruido rosa de duración "Time"
+SamplingRate = 44100;
 Nx= SamplingRate*Time; %muestras a sintetizar: frecuencia de muestreo * tiempo en segundos 
 
 B=[0.049922035 -0.095993537 0.050612699 -0.004408786]; %coeficientes del filtro 3dB
@@ -19,8 +16,8 @@ v = randn(1,Nx+nT60); %Vector Aleatorio
 x = filter(B,A,v); %filtro 1/f
 
 PinkNoise = x(nT60+1:end);
-Fs = SamplingRate;
+PinkNoise = normalize(PinkNoise); 
 
-audiowrite('Pink Noise.wav',PinkNoise,Fs);
+audiowrite('Pink Noise.wav',PinkNoise,SamplingRate);
 end
 
