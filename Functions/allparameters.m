@@ -1,31 +1,31 @@
 %%  Parametros
-function [EDT,T20,T30,C50,C80,D50] = allparameters(Ir,fm)
+function [EDT,T20,T30,C50,C80,D50] = allparameters(Ir)
 % allparameters
-%   Calcula los tiempos de reverberacion según la norma ISO-3382
-%   y los parámetros energéticos de Claridad (C80) y Definicion (D50).
+%   Calcula los tiempos de reverberacion segï¿½n la norma ISO-3382
+%   y los parï¿½metros energï¿½ticos de Claridad (C80) y Definicion (D50).
 %   Entradas:
 %       Ir = Respuesta al impulso.
 %       fm = Frecuencia de muestreo.
 %   Salidas:
 %       EDT = Early Decay Time en [s]
-%       T20 = Parámetro T20 [s]
-%       T30 = Parámetro T30 [s]
+%       T20 = Parï¿½metro T20 [s]
+%       T30 = Parï¿½metro T30 [s]
 %       C80 = Claridad Musical Media (C80) [dB]
 %       C50 = Claridad de la Voz (C50) [dB]
-%       D50 = Definición de la voz (D50) [Porcentaje]
-
+%       D50 = Definiciï¿½n de la voz (D50) [Porcentaje]
+    fm = 44100;
     [EDT,T20,T30] = tr(Ir,fm);
     [C50,C80,D50] = energeticos(Ir,fm);q
 end
 
 %%  Tiempos de reverberacion
-function [EDT,T20,T30] = tr(Ir,fm)
-%  Tiempos de Reverberación
-%       Calcula los tiempos de reverberación T20, T30 y EDT 
-%       según norma ISO 3382.
-
+function [EDT,T20,T30] = tr(Ir)
+%  Tiempos de Reverberaciï¿½n
+%       Calcula los tiempos de reverberaciï¿½n T20, T30 y EDT 
+%       segï¿½n norma ISO 3382.
+    fm = 44100;
     x = 0:1/fm:(length(Ir)-1)/fm;
-    Max = find(Ir == max(Ir),1);    %Pico maximo de Ir
+    Max = find(Ir == max(Ir),'first');    %Pico maximo de Ir
     
     %% EDT
     y1EDT = Ir(Max);
@@ -69,11 +69,12 @@ function [EDT,T20,T30] = tr(Ir,fm)
 end
 
 %%  Parametros energeticos
-%       Calcula los parámetros energéticos de claridad y definición
-%       según ISO-3382. 
-function [C50,C80,D50] = energeticos(Ir,fm)
-%Parámetros Energéticos
+%       Calcula los parï¿½metros energï¿½ticos de claridad y definiciï¿½n
+%       segï¿½n ISO-3382. 
+function [C50,C80,D50] = energeticos(Ir)
+%Parï¿½metros Energï¿½ticos
 
+fm = 44100;
     p = Ir.^2;              %Respuesta al Impulso al Cuadrado
     Ms50 = 0.05*fm;  %Redondeo a 50ms 
     Ms80 = 0.08*fm;  %Redondeo a 80ms
