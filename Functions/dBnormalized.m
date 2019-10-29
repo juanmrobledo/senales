@@ -14,4 +14,5 @@ Tiempo = Tiempo(1:end-1);
 FileAudio =abs(FileAudio)/max(FileAudio);
 AmplituddB = 20*log10(FileAudio);
 
+plot(Time,AmplituddB)
 end

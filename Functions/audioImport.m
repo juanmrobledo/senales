@@ -12,10 +12,12 @@ function [AudioDataSet] = audioImport()
 
    while  or(Ans == 's',Ans == 'S')
         Archivo = input('Ingrese nombre de Archivo: ','s');
-        AudioFile = audioread(Archivo);
+        
+        [x,fs] = audioread(Archivo);
+        info = audioinfo(Archivo);
         
         AudioDataSet{a,1} = 'Ir' + string(a);
-        AudioDataSet{a,2} = AudioFile;
+        AudioDataSet{a,2} = struct('amplitudvector',x,'SampleRate',fs,'Duracion', info.Duration);
         
         a = a + 1;
         Ans = input('Desea añadir mas archivos de audio? (S/N)','s');
