@@ -17,7 +17,7 @@ function [AudioDataSet] = audioImport()
         info = audioinfo(Archivo);
         
         AudioDataSet{a,1} = 'Ir' + string(a);
-        AudioDataSet{a,2} = struct('amplitudvector',x,'SampleRate',fs,'Duracion', info.Duration);
+        AudioDataSet{a,2} = struct('amplitudvector',x','SampleRate',fs,'Duracion', info.Duration);
         
         a = a + 1;
         Ans = input('Desea añadir mas archivos de audio? (S/N)','s');

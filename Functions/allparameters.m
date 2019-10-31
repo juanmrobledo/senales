@@ -24,48 +24,62 @@ function [EDT,T20,T30] = tr(Suavizado,fm)
 %       Calcula los tiempos de reverberaci�n T20, T30 y EDT 
 %       seg�n norma ISO 3382.
 
+%% Configuración de Datos
     x = 0:1/fm:(length(Suavizado)-1)/fm;
-    Max = find(Suavizado == max(Suavizado),1);    %Pico maximo de Ir
+    
+    
+    Max0 = find(Suavizado == max(Suavizado));              %Muestra del Pico Maximo
+    
+    myMax = find(round(Suavizado) == round(max(Suavizado)-5));    
+    myMax = myMax(myMax > Max0);
+    myMax = myMax(1);                                      %Muestra del Pico Máximo - 5dB
     
     %% EDT
-    y1EDT = Suavizado(Max);
-    y2EDT = find(Suavizado<max(Suavizado)-10);
-    y2EDT = y2EDT(y2EDT > Max);
+    y1EDT = Max0;
+    y2EDT = find(round(Suavizado) == round(max(Suavizado)-10));    
+    y2EDT = y2EDT(y2EDT > myMax);
     y2EDT = y2EDT(1);
-    y2EDT = Suavizado(y2EDT);
-    x1EDT = x(find(Suavizado == y1EDT));
-    x2EDT = x(find(Suavizado == y2EDT));
-    EDT = 6*(x2EDT - x1EDT)
+    
+    x1EDT = x(y1EDT);
+    x2EDT = x(y2EDT);
+    
+    EDT = 6*(x2EDT - x1EDT);
     
     %% T20
-    y1T20 = find(Suavizado<max(Suavizado)-5);
-    y1T20 = y1T20(y1T20 > Max);
-    y1T20 = y1T20(1);
-    y1T20 = Suavizado(y1T20);
-    y2T20 = find(Suavizado<max(Suavizado)-25);
-    y2T20 = y2T20(y2T20 > Max);
+    y1T20 = myMax;
+    
+    y2T20 = find(round(Suavizado) == round(max(Suavizado)-25));
+    y2T20 = y2T20(y2T20 > myMax);
     y2T20 = y2T20(1);
-    y2T20 = Suavizado(y2T20);
-    x1T20 = x(find(Suavizado == y1T20));
-    x1T20 = x1T20(1);
-    x2T20 = x(find(Suavizado == y2T20));
-    x2T20 = x2T20(1);
-    T20 = 3*(x2T20 - x1T20)
+    
+    x1T20 = x(y1T20);
+    x2T20 = x(y2T20);
+
+    T20 = x(3*(y2T20 - y1T20));
 
     %% T30
-    y1T30 = find(Suavizado<max(Suavizado)-5);
-    y1T30 = y1T30(y1T30 > Max);
-    y1T30 = y1T30(1);
-    y1T30 = Suavizado(y1T30);
-    y2T30 = find(Suavizado<max(Suavizado)-35);
-    y2T30 = y2T30(y2T30 > Max);
+    y1T30 = myMax;
+
+    y2T30 = find(round(Suavizado) == round(max(Suavizado)-35));
+    y2T30 = y2T30(y2T30 > myMax);
     y2T30 = y2T30(1);
-    y2T30 = Suavizado(y2T30);
-    x1T30 = x(find(Suavizado == y1T30));
-    x1T30 = x1T30(1);
-    x2T30 = x(find(Suavizado == y2T30));
-    x2T30 = x2T30(1);
-    T30 = 2*(x2T30 - x1T30)
+
+    x1T30 = x(y1T30);
+    x2T30 = x(y2T30);
+
+    T30 = 2*(x2T30 - x1T30);
+    
+    %% T60
+    y1T60 = myMax;
+
+    y2T60 = find(round(Suavizado) == round(max(Suavizado)-65));
+    y2T60 = y2T60(y2T60 > myMax);
+    y2T60 = y2T60(1);
+
+    x1T60 = x(y1T60);
+    x2T60 = x(y2T60);
+
+    T60 = x2T60 - x1T60;
 end
 
 %%  Parametros energeticos
@@ -78,7 +92,8 @@ function [C80,D50] = energeticos(Suavizado,fm)
     Ms50 = 0.05*fm;  %Redondeo a 50ms 
     Ms80 = 0.08*fm;  %Redondeo a 80ms
     
-    C80 = 10*log10(trapz(p(1:Ms80))/trapz(p(Ms80:end)))  %C80
-    D50 = (trapz(p(1:Ms50))/trapz(p(1:end)))*100         %D50
+    C80 = abs(10*log10(trapz(p(1:Ms80))/trapz(p(Ms80:end))));    %C80
+    D50 = (cumsum(p(1:Ms50))/cumsum(p(1:end)));
+    D50 = D50(end)*100  %D50
 end
 
