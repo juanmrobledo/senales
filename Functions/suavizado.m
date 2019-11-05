@@ -18,3 +18,4 @@ function [SuavizadodB] = suavizado(Signal)
 %% Salida Normalizada
     SuavizadodB = 20*log10(Shroeder/max(Shroeder));
 end
+
