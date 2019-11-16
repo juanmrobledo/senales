@@ -16,7 +16,7 @@ v = randn(1,Nx+nT60); %Vector Aleatorio
 x = filter(B,A,v); %filtro 1/f
 
 PinkNoise = x(nT60+1:end);
-PinkNoise = normalize(PinkNoise); 
+PinkNoise = PinkNoise*0.8; 
 
 audiowrite('Pink Noise.wav',PinkNoise,SamplingRate);
 end

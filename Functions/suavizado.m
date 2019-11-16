@@ -5,17 +5,19 @@ function [SuavizadodB] = suavizado(Signal)
 %   Audio = Estructura de la señal. 
 %Salida:
 %   SuavizadodB = Envolvente suavizada con amlitud normalizada en dB
-
 %% Hilbert
     Audio = Signal.amplitudvector;
     myHilbert = hilbert(Audio);
     Analitica = Audio + i*myHilbert;   %Función Analítica
     Suavizado = abs(Analitica);
     
+%% Límite de Loundby
+Lim = lundeby(Signal);
     %% Shroeder
-    Shroeder = cumsum(Suavizado.^2,'reverse');
+    Shroeder = cumsum(Suavizado(1:Lim).^2,'reverse');
 
 %% Salida Normalizada
     SuavizadodB = 20*log10(Shroeder/max(Shroeder));
-end
 
+
+end
