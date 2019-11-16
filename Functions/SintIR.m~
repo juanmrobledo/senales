@@ -35,7 +35,7 @@ SampleRate = 44100;
 N = Time*SampleRate;
 t = linspace(0,Time,N);
 
-SintIR = cell(1,length(fcen)) %Banco de RI por fcen
+SintIR
 
 
 %% Decamiento exponencial en funcion del tiempo de rev
@@ -44,8 +44,8 @@ for k=1:length(fcen)
 
     %Respuesta al impulsoaudiowrite('SintIR.wav',SintIR,44100)
     y_i = (exp(pik*t)).*cos(2*pi*fcen(k)*t);
-    SintIR{k} = flip(y_i);
-    SumIR = sum(SintIR);
+    SintIR = flip(y_i);
+    SumIR = cumsum(SintIR);
     
 %     subplot(2,1,1);
 %     plot(seconds(t),SintIR);
@@ -56,9 +56,6 @@ for k=1:length(fcen)
 %     title('Sintetizacion de Respuesta al Impulso');
 %    rplot(t,SumIR);
 end
-
-%% Sumatoria de IR
-for i = 1:length(fcen)
 %% Guardado de la respuesta al impulso en formato .wav
 %name = ['SintIR'];
 %audiowrite('SintIR.wav',SintIR,44100)
