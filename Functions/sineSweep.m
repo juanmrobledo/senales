@@ -1,4 +1,4 @@
-function sineSweep(f1,f2,Time)
+function [SineSweep, SampleRate] = sineSweep(f1,f2,Time)
 %%  Funcion sineSweep
 %
 %   sineSweep(f1,f2,Time)
@@ -36,13 +36,8 @@ SampleRate = 44100;
         m = w1./(2*pi*w);
 
         InvertedFilt = m.*wrev(SineSweep);
-<<<<<<< HEAD
         InvertedFilt = InvertedFilt*0.8;
-=======
-        InvertedFilt = InvertedFilt*0.8; %Ajuste por clipeo
->>>>>>> 5f1fd96cdfb912898a2e25a16ae606fefb29652c
-    
-            
+
         audiowrite('inverted.wav',InvertedFilt,SampleRate);
 
 

@@ -26,7 +26,7 @@ x = filter(B,A,v); %filtro 1/f
 
 %% Funcion PinkNoise
 PinkNoise = x(nT60+1:end);
-PinkNoise = normalize(PinkNoise); 
+PinkNoise = PinkNoise*0.8; 
 
 audiowrite('Pink Noise.wav',PinkNoise,SamplingRate);
 end
