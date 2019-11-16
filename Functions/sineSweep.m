@@ -31,7 +31,7 @@ SampleRate = 44100;
         m = w1./(2*pi*w);
 
         InvertedFilt = m.*wrev(SineSweep);
-        InvertedFilt = normalize(InvertedFilt);
+        InvertedFilt = InvertedFilt*0.8; %Ajuste por clipeo
     
             
         audiowrite('inverted.wav',InvertedFilt,SampleRate);
