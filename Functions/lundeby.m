@@ -1,20 +1,15 @@
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Lundeby.m
+function cruce = lundeby(IR, SampleRate)
+%%
+%   Funcion lundeby.
 %
-%Implements the Lundeby method, to determine the truncation point.
+%   cruce = lundeby(IR, SampleRate)
 %
-%[ponto,C]=lundeby(IR,Fs,flag)
-%
-%% The input are the room impulse response and its sampling frequency. Flag
-%% specifies if the results should be ploted (1) or not(0).
-%% The output are the truncation point (ponto) and the correction constant
-%% C, used to compensate for the truncation effects in the Schroeder plots.
-%% If no output variables are given, the function prints a grafic with the
-%% evaluated values.
-
-function cruce=lundeby(IR, SampleRate)
-
+%   Entradas:
+%         IR = Respuesta al Impulso del recinto
+%         SampleRate = Frecuencia de Muestreo
+%         
+%     Salidas:
+%         cruce = Extremo superior de integracion para la funcion integral de Schroeder
 
 energia_impulso = IR.^2;
 

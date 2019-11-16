@@ -1,12 +1,15 @@
 function impulseresponsewav(y_t,f_min,f_max)
-%% IMPULSERESPONSE
+%%  Funcion impulseresponsewav
+%   
+%   impulseresponsewav(y_t,f_min,f_max)
+%
 %   Inputs:
 %     y_t = La respuesta del sistema a una exitación impulsiva
 %     f_min = Frecuencia minima de la exitación impulsiva (Sinesweep)
 %     f_max = Frecuencia maxima de la exitación impulsiva (Sinesweep)
 %
-% Nota: La señal 'y_t' debe ser cargada en formato .wav
-%    Por ejemplo:
+%   Nota: La señal 'y_t' debe ser cargada en formato .wav
+%   Por ejemplo:
 %           impulseresponsewav('nombre_del_audio.wav')
 
 [y,Fs] = audioread(y_t); % Procesamiento del audio como vector de valores

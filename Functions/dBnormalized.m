@@ -1,11 +1,14 @@
 function [AmplituddB] = dBnormalized(AudioFile)
-%Normaliza la amplitud en dB
-% Input : Archivo de audio 
+%%   Funcion dBnormalized
 %
-
-%%NOTES
-%Solucion: sumar constante, luego restar (dB)
-
+%   [AmplituddB] = dBnormalized(AudioFile)
+%
+%   Normaliza la amplitud en dB.
+%
+%   Input : Archivo de audio 
+%
+%%  NOTES
+%   Solucion: sumar constante, luego restar (dB)
 %%
     SampleRate = 44100;
     FileAudio = audioread(AudioFile);

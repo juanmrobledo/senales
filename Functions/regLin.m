@@ -1,5 +1,8 @@
 function [r0,r1] = regLin(Signal)
-%% cuadMin
+%%   Funcion Regresion Lineal, regLin
+%
+%   [r0,r1] = regLin(Signal)
+%
 %   Realiza una regresion lineal mediante un ajuste por cuadrados
 %   minimos.
 %

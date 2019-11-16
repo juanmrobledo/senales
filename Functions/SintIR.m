@@ -1,6 +1,8 @@
 function [SintIR] = SintIR(Time,OctOrTer)
-%Sintetizacion de respuesta al impulso
+%%  Funcion Sintetizacion de respuesta al impulso, SintIR
 % 
+%   [SintIR] = SintIR(Time,OctOrTer)
+%
 %   fcen = Frecuencia Central
 %   T60 = Tiempo de reverberacion
 %   Time = Duracion del impulso

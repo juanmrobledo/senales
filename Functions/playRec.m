@@ -1,6 +1,12 @@
 function playRec()
-
-%   Funcion para Reproducir y Grabar en simultaneo. 
+%%   Funcion para Reproducir y Grabar en simultaneo. playRec.
+%
+%   playRec()
+%
+%   Esta funcion permite reproducir un sine sweep y al mismo tiempo grabar
+%   como un recinto responde a dicho sine sweep. Una vez terminada la
+%   grabacion, se guarda un archivo con el nombre "Recorded Signal.wav" en
+%   la carpeta del programa.
 
 %% Seleccion de Dispositivo de Reproduccion/Grabacion a utilizar
     devices = getAudioDevices(audioPlayerRecorder);

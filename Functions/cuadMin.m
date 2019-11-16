@@ -1,13 +1,16 @@
 function [a0,a1] = cuadMin(x,y)
-%% cuadMin
+%%  Funcion cuadMin
+%   
+%     [a0,a1] = cuadMin(x,y)
+% 
 %   Realiza una regresion lineal mediante un ajuste por cuadrados
 %   minimos.
 %
-%   [a0,a1] = cuadMin(x,y)
+%   Inputs: 
+%       x, y = Coordenadas de cada muestra de la senal a procesar.
 %
-%   Inputs: x e y son coordenadas de cada muestra de la senal a procesar.
-%   Output: a0 y a1 son los coeficientes de una recta de ajuste definida 
-%           como a0+a1*x
+%   Output: 
+%       a0, a1 = Coeficientes de una recta de ajuste definida como a0+a1*x
 
    
     A = ones(length(x),2);
