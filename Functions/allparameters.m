@@ -2,7 +2,7 @@
 function [EDT,T20,T30,C80,D50] = allparameters(Suavizado)
 % allparameters
 %   Calcula los tiempos de reverberacion seg�n la norma ISO-3382
-%   y los par�metros energ�ticos de Claridad (C80) y Definicion (D50).
+%   y los parametros energeticos de Claridad (C80) y Definicion (D50).
 %   Entradas:
 %       Ir = Respuesta al impulso.
 %       fm = Frecuencia de muestreo.

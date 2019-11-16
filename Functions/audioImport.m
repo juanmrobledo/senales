@@ -1,6 +1,6 @@
 function [AudioDataSet] = audioImport()
 %audioImport crea una matriz de almacenado de archivos de audio.
-%            el audio se guarda en formato doble (array numérico)
+%el audio se guarda en formato doble (array numérico)
 %   Input: n Archivos de audio
 %   Output: Celda de n filas, y 2 columnas
 

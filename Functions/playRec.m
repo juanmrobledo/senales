@@ -1,6 +1,6 @@
 function playRec()
 
-%   Función para Reproducir y Grabar en simultáneo. 
+%   Funcion para Reproducir y Grabar en simultaneo. 
 
 %% Seleccion de Dispositivo de Reproduccion/Grabacion a utilizar
     devices = getAudioDevices(audioPlayerRecorder);

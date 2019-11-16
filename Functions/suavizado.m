@@ -1,8 +1,8 @@
 function [SuavizadodB] = suavizado(Signal)
 %% Info
-% Suaviza la señal para poder ser analizada por la función AllParameters. 
+% Suaviza la se�al para poder ser analizada por la función AllParameters. 
 %Entrada:
-%   Audio = Estructura de la señal. 
+%   Audio = Estructura de la se�al. 
 %Salida:
 %   SuavizadodB = Envolvente suavizada con amlitud normalizada en dB
 
