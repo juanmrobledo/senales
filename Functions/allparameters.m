@@ -64,7 +64,7 @@ function [EDT,T20,T30] = tr(Suavizado,fm)
     x1T20 = x(y1T20);
     x2T20 = x(y2T20);
 
-    T20 = x(3*(y2T20 - y1T20));
+    T20 = 3*(y2T20 - y1T20);
 
     %% T30
     y1T30 = myMax;
@@ -97,11 +97,10 @@ function [C80,D50] = energeticos(Suavizado,fm)
 %       seg�n ISO-3382. 
 
     p = Suavizado.^2;              %Respuesta al Impulso al Cuadrado
-    Ms50 = 0.05*fm;  %Redondeo a 50ms 
-    Ms80 = 0.08*fm;  %Redondeo a 80ms
+    Ms50 = (50*fm)/1000;  %Redondeo a 50ms 
+    Ms80 = floor((80*fm)/1000);  %Redondeo a 80ms
     
-    C80 = abs(10*log10(trapz(p(1:Ms80))/trapz(p(Ms80:end))));    %C80
-    D50 = (cumsum(p(1:Ms50))/cumsum(p(1:end)));
-    D50 = D50(end)*100  %D50
+    C80 = abs(10*log10(trapz(p(1:Ms80))/trapz(p(Ms80:end))));    
+    D50 = (sum(p(1:Ms50))/sum(p(1:end))); 
 end
 
