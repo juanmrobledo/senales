@@ -18,7 +18,7 @@ function [AudioDataSet] = audioImport()
         %% Seteo de Datos
         i = 1;
         
-        %% Inicio de Bucle
+        %% Inicio de BucleT
         while i<=length(filename)
             
             Filename = filename{i}; %Variable con nombre del Archivo

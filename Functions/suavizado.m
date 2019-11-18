@@ -14,12 +14,22 @@ function [SuavizadodB] = suavizado(Signal)
 
 %% Hilbert
     
-    Audio = Signal.amplitudvector;
+    Matriz = zeros(length(Signal{1}.amplitudvector),length(Signal));
+    a = 1;
+    
+    for i=1:length(Signal)
+        Matriz(:, a) = Signal{a}.amplitudvector;
+        
+        a = a + 1;
+    end
+    
+    Audio = mean(Matriz,2);    
     myHilbert = hilbert(Audio);
     Analitica = Audio + 1i*myHilbert;   %Funcion Analitica
     Suavizado = abs(Analitica);
     
-%% Limite de Loundby
+    
+%% Limite de Loundeby
 Lim = lundeby(Signal);
     %% Shroeder
     Shroeder(Lim:-1:1) = cumsum(Suavizado(1:Lim).^2,'reverse');
