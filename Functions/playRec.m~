@@ -23,11 +23,11 @@ function playRec(f1,f2,Time,InputDevice,OutputDevice)
     
 
 %% Bucle de Adquisicion
-disp('Inicio de Adquisicion')
+disp('Inicio de Adquisición')
 while ~isDone(fileReader)  
     
     audioToPlay = fileReader();
-    nUnderruns = devicePlayer(audioToPlay);
+    nUnderrun = deviceWriter(audioToDevice)
     [audioRecorded,nOverruns] = deviceRecorder();
     fileWriter(audioRecorded)
     
@@ -39,10 +39,9 @@ while ~isDone(fileReader)
     end
 end
 
-    disp('Adquisicion Finalizada')
+    disp('Adquisición Finalizada')
 
 release(fileReader)
 release(fileWriter)
-release(devicePlayer)
-release(deviceRecorder)
+release(devicePlayRec)
 end
