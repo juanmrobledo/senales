@@ -29,10 +29,8 @@ function [SuavizadodB] = suavizado(Signal)
     Suavizado = abs(Analitica);
     
     
-%% Limite de Loundeby
-Lim = lundeby(Signal);
     %% Shroeder
-    Shroeder(Lim:-1:1) = cumsum(Suavizado(1:Lim).^2,'reverse');
+    Shroeder = cumsum(Suavizado(1:end).^2,'reverse');
 
 %% Salida Normalizada
     SuavizadodB = 10*log10(Shroeder/max(Shroeder));
