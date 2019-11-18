@@ -8,16 +8,10 @@ function playRec(f1,f2,Time)
 %   grabacion, se guarda un archivo con el nombre "Recorded Signal.wav" en
 %   la carpeta del programa.
 
-%% Seleccion de Dispositivo de Reproduccion/Grabacion a utilizar
-    devices = getAudioDevices(audioPlayerRecorder);
-        disp('Dispositivos disponibles con modo full-duplex');
-        disp(devices);
-    device = input('Seleccione dispositivo (ingrese nombre exacto): ','s');
-
 %% Objetos
     [fileReader, Fs] = sineSweep(f1,f2,Time);
     fileWriter = dsp.AudioFileWriter('Recorded Signal.wav','SampleRate',Fs);
-    devicePlayRec = audioPlayerRecorder('Device',device,'SampleRate',Fs);
+    devicePlayRec = audioPlayerRecorder('Device',Device,'SampleRate',Fs);
 
 %% Bucle de Adquisicion
 disp('Inicio de Adquisición')
