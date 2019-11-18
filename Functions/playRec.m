@@ -1,6 +1,12 @@
-function playRec()
-
-%   Función para Reproducir y Grabar en simultáneo. 
+function playRec(f1,f2,Time)
+%%   Funcion para Reproducir y Grabar en simultaneo. playRec.
+%
+%   playRec()
+%
+%   Esta funcion permite reproducir un sine sweep y al mismo tiempo grabar
+%   como un recinto responde a dicho sine sweep. Una vez terminada la
+%   grabacion, se guarda un archivo con el nombre "Recorded Signal.wav" en
+%   la carpeta del programa.
 
 %% Seleccion de Dispositivo de Reproduccion/Grabacion a utilizar
     devices = getAudioDevices(audioPlayerRecorder);
@@ -9,8 +15,7 @@ function playRec()
     device = input('Seleccione dispositivo (ingrese nombre exacto): ','s');
 
 %% Objetos
-    fileReader = dsp.AudioFileReader('Sine Sweep.wav');
-    Fs = fileReader.SampleRate;
+    [fileReader, Fs] = sineSweep(f1,f2,Time);
     fileWriter = dsp.AudioFileWriter('Recorded Signal.wav','SampleRate',Fs);
     devicePlayRec = audioPlayerRecorder('Device',device,'SampleRate',Fs);
 

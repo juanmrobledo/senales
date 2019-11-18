@@ -1,6 +1,11 @@
-function  sineSweep(f1,f2,Time)
-%Esta función genera un SineSweep logarítmico, y el mismo con su filtro
-%inverso aplicado
+function [SineSweep, SampleRate] = sineSweep(f1,f2,Time)
+%%  Funcion sineSweep
+%
+%   sineSweep(f1,f2,Time)
+%
+%   Esta funcion genera un SineSweep logaritmico, y el mismo con su filtro
+%   inverso.
+%
 %   Inputs:
 %          f1: Frecuencia Inicial
 %          f2: Frecuencia Final
@@ -31,9 +36,8 @@ SampleRate = 44100;
         m = w1./(2*pi*w);
 
         InvertedFilt = m.*wrev(SineSweep);
-        InvertedFilt = InvertedFilt*0.8; %Ajuste por clipeo
-    
-            
+        InvertedFilt = InvertedFilt*0.8;
+
         audiowrite('inverted.wav',InvertedFilt,SampleRate);
 
 

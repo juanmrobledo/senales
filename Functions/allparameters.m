@@ -1,30 +1,39 @@
-%%  Parametros
+
 function [EDT,T20,T30,C80,D50] = allparameters(Suavizado)
-% allparameters
-%   Calcula los tiempos de reverberacion seg�n la norma ISO-3382
-%   y los par�metros energ�ticos de Claridad (C80) y Definicion (D50).
+%%  Funcion allparameters
+%
+%   [EDT,T20,T30,C80,D50] = allparameters(Suavizado)
+%
+%   Calcula los tiempos de reverberacion segun la norma ISO-3382
+%   y los parametros energeticos de Claridad (C80) y Definicion (D50).
+%
 %   Entradas:
 %       Ir = Respuesta al impulso.
 %       fm = Frecuencia de muestreo.
+%
 %   Salidas:
 %       EDT = Early Decay Time en [s]
-%       T20 = Par�metro T20 [s]
-%       T30 = Par�metro T30 [s]
+%       T20 = Parametro T20 [s]
+%       T30 = Parametro T30 [s]
 %       C80 = Claridad Musical Media (C80) [dB]
 %       C50 = Claridad de la Voz (C50) [dB]
-%       D50 = Definici�n de la voz (D50) [Porcentaje]
+%       D50 = Definicion de la voz (D50) [Porcentaje]
+    
     fm = 44100;
     [EDT,T20,T30] = tr(Suavizado,fm);
     [C80,D50] = energeticos(Suavizado,fm);
 end
 
-%%  Tiempos de reverberacion
-function [EDT,T20,T30] = tr(Suavizado,fm)
-%  Tiempos de Reverberaci�n
-%       Calcula los tiempos de reverberaci�n T20, T30 y EDT 
-%       seg�n norma ISO 3382.
 
-%% Configuración de Datos
+function [EDT,T20,T30] = tr(Suavizado,fm)
+%%  Tiempos de Reverberacionn
+%
+%   [EDT,T20,T30] = tr(Suavizado,fm)
+%
+%   Calcula los tiempos de reverberaci�n T20, T30 y EDT 
+%	segunn norma ISO 3382.
+
+%% Configuracion de Datos
     x = 0:1/fm:(length(Suavizado)-1)/fm;
     
     
@@ -82,11 +91,10 @@ function [EDT,T20,T30] = tr(Suavizado,fm)
     T60 = x2T60 - x1T60;
 end
 
-%%  Parametros energeticos
-%       Calcula los par�metros energ�ticos de claridad y definici�n
-%       seg�n ISO-3382. 
 function [C80,D50] = energeticos(Suavizado,fm)
-%Par�metros Energ�ticos
+%%  Parametros energeticos
+%       Calcula los parametros energ�ticos de claridad y definici�n
+%       seg�n ISO-3382. 
 
     p = Suavizado.^2;              %Respuesta al Impulso al Cuadrado
     Ms50 = 0.05*fm;  %Redondeo a 50ms 
