@@ -1,4 +1,4 @@
-function playRec(f1,f2,Time,InputDevice,OutputDevice)
+function playRec(f1,f2,Time,Device)
 %%   Funcion para Reproducir y Grabar en simultaneo. playRec.
 %
 %   playRec()
@@ -8,27 +8,22 @@ function playRec(f1,f2,Time,InputDevice,OutputDevice)
 %   grabacion, se guarda un archivo con el nombre "Recorded Signal.wav" en
 %   la carpeta del programa.
 
+
 %% Objetos
-% 
-%     devices = getAudioDevices(audioPlayerRecorder);
-%         disp('Dispositivos disponibles con modo full-duplex');
-%         disp(devices);
-%     device = input('Seleccione dispositivo (ingrese nombre exacto): ','s');
-    
+
+
     [Sine, Fs] = sineSweep(f1,f2,Time); clear Sine
+    
     fileReader = dsp.AudioFileReader('Sine Sweep.wav');
     fileWriter = dsp.AudioFileWriter('Recorded Signal.wav','SampleRate',Fs);
-    devicePlayer = audioDeviceWriter('Device',OutputDevice,'SampleRate',Fs);
-    deviceRecorder = audioDeviceReader('Device',InputDevice,'SampleRate',Fs);
-    
+    devicePlayRec = audioPlayerRecorder('Device',Device,'SampleRate',Fs);
 
 %% Bucle de Adquisicion
-disp('Inicio de Adquisicion')
+disp('Inicio de Adquisición')
 while ~isDone(fileReader)  
     
     audioToPlay = fileReader();
-    nUnderruns = devicePlayer(audioToPlay);
-    [audioRecorded,nOverruns] = deviceRecorder();
+    [audioRecorded,nUnderruns,nOverruns] = devicePlayRec(audioToPlay);
     fileWriter(audioRecorded)
     
     if nUnderruns > 0
@@ -39,10 +34,10 @@ while ~isDone(fileReader)
     end
 end
 
-    disp('Adquisicion Finalizada')
+    disp('Adquisición Finalizada')
 
 release(fileReader)
 release(fileWriter)
-release(devicePlayer)
-release(deviceRecorder)
+release(devicePlayRec)
 end
+
