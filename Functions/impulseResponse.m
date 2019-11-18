@@ -1,4 +1,4 @@
-function [IR] = impulseResponse()
+function [IR,fs] = impulseResponse()
 %%   Función impulseResponse
 %
 %   [IR] = impulseResponse()
@@ -7,7 +7,7 @@ function [IR] = impulseResponse()
 %   a partir de la señal obtenida con playrec.
 
 %%
-    RecSineSweep = audioread("Recorded Signal.wav");
+    [RecSineSweep, fs] = audioread("Recorded Signal.wav");
     InvertedFilt = audioread("inverted.wav");
     
     IR = conv(RecSineSweep, InvertedFilt);
