@@ -1,16 +1,15 @@
-<<<<<<< HEAD
-
-function [punto]=lundeby(Signal)
+function [cruce]=lundeby(Signal)
 %% lundeby
 %
 %   Implementa el metodo de Lundeby para determinar el extremo de
 %   integracion de la integral de Schroeder.
 %
-%   [punto]=lundeby(Et,fm)
 %
 %   INPUTS:
-%       Et = Energia de la RI, en escala logaritmica
-%       fm = Frecuencia de muestreo
+%       Estructura de la Señal
+%       Signal.amplitudvector = double
+%       Signal.SampleRate = int
+%       Signal.Duracion = duration
 %   OUTPUT:
 %       punto = Limite de integracion de Schroeder
 % 
@@ -18,8 +17,8 @@ function [punto]=lundeby(Signal)
 %   creada para la Universidad de San Pablo por Bruno S. Masiero (2006). 
 %   https://www.mathworks.com/matlabcentral/fileexchange/11392-acmus-room-acoustic-parameters
 
-    Et = abs(Signal.amplitudvector);
-    fm = Signal.SampleRate;
+    Et = Signal.amplitudvector.^2;
+    fm = Signal.SasmpleRate;
 
     %Calcula el nivel de ruido del 10% final de la se�al
 
@@ -33,59 +32,6 @@ function [punto]=lundeby(Signal)
     for n=1:t
         media(n) = mean(Et((((n-1)*v)+1):(n*v)));
         tiempo(n) = ceil(v/2)+((n-1)*v);
-=======
-function cruce = lundeby(IR, SampleRate)
-%%
-%   Funcion lundeby.
-%
-%   cruce = lundeby(IR, SampleRate)
-%
-%   Entradas:
-%         IR = Respuesta al Impulso del recinto
-%         SampleRate = Frecuencia de Muestreo
-%         
-%     Salidas:
-%         cruce = Extremo superior de integracion para la funcion integral de Schroeder
-
-energia_impulso = IR.^2;
-
-
-        %Calcula el nivel de ruido del ultimo 10% de la señal. Se asume que
-        %alli domina el ruido de la señal
-rms_dB = 10*log10(mean(energia_impulso(round(.9*length(energia_impulso)):end))/max(energia_impulso));
-
-
-t = floor(length(energia_impulso)/SampleRate/0.01);
-    %cantidad de intervalos de 10 ms
-
-v = floor(length(energia_impulso)/t);
-
-for n=1:t
-    media(n) = mean(energia_impulso((((n-1)*v)+1):(n*v)));
-    eixo_tempo(n) = ceil(v/2)+((n-1)*v);
-end
-mediadB = 10*log10(media/max(energia_impulso));
-
-%obtem a regressao linear o intervalo de 0dB e a media mais proxima de rms+10dB
-r = max(find(mediadB > rms_dB+10));
-if any (mediadB(1:r) < rms_dB+10)
-    r = min(find(mediadB(1:r) < rms_dB+10));
-end
-if isempty(r)
-    r=10
-elseif r<10
-    r=10;
-end
-
-[A,B] = cuadMin(eixo_tempo(1:r),mediadB(1:r));
-cruce = (rms_dB-A)/B;
-
-if rms_dB > -20
-    %Relacao sinal ruido insuficiente
-    ponto=length(energia_impulso);
-    if nargout==2
-        C=0;
->>>>>>> 5cbc97826435708c7b9c591bda1ada10c8c8b843
     end
     
     mediadB = media;
@@ -93,7 +39,7 @@ if rms_dB > -20
     %Calcula la regresion lineal al intervalo desde 0dB y la media mas cercana de rms+10dB
     r = find(mediadB > ruidodb+10, 1, 'last' );
     if any (mediadB(1:r) < ruidodb+10)
-        r = find(mediadB(1:r) < ruidodb+10, 'first');
+        r = find(mediadB(1:r) < ruidodb+10, 1 );
     end
     if isempty(r)
         r=10;
@@ -104,10 +50,10 @@ if rms_dB > -20
     encuentro = (ruidodb-A)/B;
     if ruidodb > -20
         %Relacion se�al/ruido insuficiente
-        punto = length(Et);
+        cruce = length(Et);
         
     else
-        %% %%%%%%%%%%%%%%%%%%%%%%  INICIA LA PARTE ITERATIVA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %% %%%%%%%%%%%%%%%%%%%%%% INICIA LA PARTE ITERATIVA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         error=1;
         INTMAX=50;
         veces=1;
@@ -147,9 +93,9 @@ if rms_dB > -20
     end
 
     if encuentro > length(Et)     %En caso de que la se�al no alcance el nivel del ruido de fondo
-        punto = length(Et);       %en las muestras previstas, se considera el punto
+        cruce = length(Et);       %en las muestras previstas, se considera el punto
     else                          %de encuentro la ultima muestra, que equivale a no
-        punto = encuentro;        %truncar la se�al.
+        cruce = encuentro;        %truncar la se�al.
     end
-    punto = round(punto);
+    cruce = round(cruce);
 end
