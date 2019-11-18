@@ -1,4 +1,4 @@
-function playRec(f1,f2,Time,InputDevice,OutputDevice)
+function playRec(f1,f2,Time,Device)
 %%   Funcion para Reproducir y Grabar en simultaneo. playRec.
 %
 %   playRec()
@@ -18,17 +18,15 @@ function playRec(f1,f2,Time,InputDevice,OutputDevice)
     [Sine, Fs] = sineSweep(f1,f2,Time); clear Sine
     fileReader = dsp.AudioFileReader('Sine Sweep.wav');
     fileWriter = dsp.AudioFileWriter('Recorded Signal.wav','SampleRate',Fs);
-    devicePlayer = audioDeviceWriter('Device',OutputDevice,'SampleRate',Fs);
-    deviceRecorder = audioDeviceReader('Device',InputDevice,'SampleRate',Fs);
-    
+    devicePlayRec = audioPlayerRecorder('Device',OutputDevice,'SampleRate',Fs);
+   
 
 %% Bucle de Adquisicion
 disp('Inicio de Adquisicion')
 while ~isDone(fileReader)  
     
     audioToPlay = fileReader();
-    nUnderruns = devicePlayer(audioToPlay);
-    [audioRecorded,nOverruns] = deviceRecorder();
+    [audioRecorded,nOverruns] = devicePlayRec(audioToPlay);
     fileWriter(audioRecorded)
     
     if nUnderruns > 0
@@ -43,6 +41,5 @@ end
 
 release(fileReader)
 release(fileWriter)
-release(devicePlayer)
-release(deviceRecorder)
+release(devicePlayRec)
 end
