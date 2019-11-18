@@ -18,7 +18,7 @@ function playRec(f1,f2,Time,Device)
     [Sine, Fs] = sineSweep(f1,f2,Time); clear Sine
     fileReader = dsp.AudioFileReader('Sine Sweep.wav');
     fileWriter = dsp.AudioFileWriter('Recorded Signal.wav','SampleRate',Fs);
-    devicePlayRec = audioPlayerRecorder('Device',OutputDevice,'SampleRate',Fs);
+    devicePlayRec = audioPlayerRecorder('Device',Device,'SampleRate',Fs);
    
 
 %% Bucle de Adquisicion
