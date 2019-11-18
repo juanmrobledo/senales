@@ -1,3 +1,4 @@
+
 function [AmplituddB] = dBnormalized(AudioFile)
 %%   Funcion dBnormalized
 %
@@ -10,6 +11,19 @@ function [AmplituddB] = dBnormalized(AudioFile)
 %%  NOTES
 %   Solucion: sumar constante, luego restar (dB)
 %%
+SampleRate = 44100;
+% FileAudio = audioread(AudioFile);
+% FileInfo = audioinfo(AudioFile);
+% Time= FileInfo.Duration;
+
+%%
+FileAudio =abs(FileAudio)/max(FileAudio);
+myzeros = find(FileAudio == 0);
+FileAudio(zeros) = 0.000001;
+AmplituddB = 20*log10(FileAudio);
+
+% Tiempo = 0:seconds(1/SampleRate):seconds(Time);
+% Tiempo = Tiempo(1:end-1);
     SampleRate = 44100;
     FileAudio = audioread(AudioFile);
     FileInfo = audioinfo(AudioFile);

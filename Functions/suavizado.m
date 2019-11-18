@@ -3,12 +3,14 @@ function [SuavizadodB] = suavizado(Signal)
 %
 %   [SuavizadodB] = suavizado(Signal)
 %
-%   Suaviza la señal para poder ser analizada por la funciÃ³n AllParameters. 
+%   Suaviza la seï¿½al para poder ser analizada por la funciÃ³n AllParameters. 
 %
 %   Entrada:
-%       Audio = Estructura de la señal. 
+%       Audio = Estructura de la seï¿½al. 
 %   Salida:
 %       SuavizadodB = Envolvente suavizada con amlitud normalizada en dB
+
+
 
 %% Hilbert
     Audio = Signal.amplitudvector;
@@ -16,10 +18,13 @@ function [SuavizadodB] = suavizado(Signal)
     Analitica = Audio + i*myHilbert;   %Funcion Analitica
     Suavizado = abs(Analitica);
     
+%% LÃ­mite de Loundby
+Lim = lundeby(Signal);
     %% Shroeder
-    Shroeder = cumsum(Suavizado.^2,'reverse');
+    Shroeder = cumsum(Suavizado(1:Lim).^2,'reverse');
 
 %% Salida Normalizada
     SuavizadodB = 20*log10(Shroeder/max(Shroeder));
-end
 
+
+end
