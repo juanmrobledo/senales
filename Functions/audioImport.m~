@@ -21,13 +21,13 @@ function [AudioDataSet] = audioImport()
         %% Inicio de Bucle
         while i<=length(filename)
             
-            Filename = filename{i}; %Variable con nombre del Archivo
+            Filename = filename{i};
             
             [x,fs] = audioread(Filename);
             info = audioinfo(Filename);
             
-           
-            AudioDataSet{i} = struct('FileName',Filename ,'amplitudvector',x ,'SampleRate',fs,'Duracion', info.Duration);
+            AudioDataSet{i,1} = string(Filename);
+            AudioDataSet{i,2} = struct('amplitudvector',x','SampleRate',fs,'Duracion', info.Duration);
             i = i + 1;
             
         end

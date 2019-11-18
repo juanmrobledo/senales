@@ -28,10 +28,7 @@ while ~isDone(fileReader)
     audioToPlay = fileReader();
     [audioRecorded,nOverruns] = devicePlayRec(audioToPlay);
     fileWriter(audioRecorded)
-    
-    if nUnderruns > 0
-        fprintf('La cola del reproductor de audio fue superada por %d muestras.\n',nUnderruns);
-    end
+     
     if nOverruns > 0
         fprintf('La cola del grabador de audio fue superado por %d muestras.\n',nOverruns);
     end
