@@ -36,7 +36,7 @@ SampleRate = 44100;
         m = w1./(2*pi*w);
 
         InvertedFilt = m.*wrev(SineSweep);
-        InvertedFilt = InvertedFilt*0.8;
+        InvertedFilt = InvertedFilt*0.7;
 
         audiowrite('inverted.wav',InvertedFilt,SampleRate);
 
