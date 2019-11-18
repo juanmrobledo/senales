@@ -9,13 +9,21 @@ function playRec(f1,f2,Time)
 %   la carpeta del programa.
 
 %% Objetos
-    [fileReader, Fs] = sineSweep(f1,f2,Time);
+
+devices = getAudioDevices(audioPlayerRecorder);
+        disp('Dispositivos disponibles con modo full-duplex');
+        disp(devices);
+    device = input('Seleccione dispositivo (ingrese nombre exacto): ','s');
+    
+    [Sine, Fs] = sineSweep(f1,f2,Time); clear Sine
+    
+    fileReader = dsp.AudioFileReader('Sine Sweep.wav');
     fileWriter = dsp.AudioFileWriter('Recorded Signal.wav','SampleRate',Fs);
-    devicePlayRec = audioPlayerRecorder('Device',Device,'SampleRate',Fs);
+    devicePlayRec = audioPlayerRecorder('Device',device,'SampleRate',Fs);
 
 %% Bucle de Adquisicion
 disp('Inicio de Adquisición')
-while ~isDone(fileReader)  %corregir 1024 muestras perdidas 
+while ~isDone(fileReader)  
     
     audioToPlay = fileReader();
     [audioRecorded,nUnderruns,nOverruns] = devicePlayRec(audioToPlay);
