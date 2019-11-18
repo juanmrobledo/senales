@@ -17,13 +17,21 @@ function playRec(f1,f2,Time,Device)
     fileReader = dsp.AudioFileReader('Sine Sweep.wav');
     fileWriter = dsp.AudioFileWriter('Recorded Signal.wav','SampleRate',Fs);
     devicePlayRec = audioPlayerRecorder('Device',Device,'SampleRate',Fs);
+<<<<<<< HEAD
+=======
+   
+>>>>>>> 8f92122552ab8964fddb0c876e02fe473bfc30c5
 
 %% Bucle de Adquisicion
 disp('Inicio de Adquisición')
 while ~isDone(fileReader)  
     
     audioToPlay = fileReader();
+<<<<<<< HEAD
     [audioRecorded,nUnderruns,nOverruns] = devicePlayRec(audioToPlay);
+=======
+    [audioRecorded,nOverruns] = devicePlayRec(audioToPlay);
+>>>>>>> 8f92122552ab8964fddb0c876e02fe473bfc30c5
     fileWriter(audioRecorded)
     
     if nUnderruns > 0
@@ -39,5 +47,9 @@ end
 release(fileReader)
 release(fileWriter)
 release(devicePlayRec)
+<<<<<<< HEAD
 end
 
+=======
+end
+>>>>>>> 8f92122552ab8964fddb0c876e02fe473bfc30c5
