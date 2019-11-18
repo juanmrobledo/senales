@@ -1,4 +1,4 @@
-function [Suavizada, Regresion, Parametros] = procesado (Signal)
+function [Suavizada, Regresion, Parametros] = main (Signal)
 
 %Se obtiene un array de la señal promediada
 %Se crea un handle con la señal:
