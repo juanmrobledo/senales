@@ -1,4 +1,4 @@
-function [AudioDataSet] = playRec(f1,f2,Time,Device,Repetitions)
+function [Promedio] = playRec(f1,f2,Time,Device,Repetitions)
 %%   Funcion para Reproducir y Grabar en simultaneo. playRec.
 %
 %   [Promedio] = playRec(f1,f2,Time,Device,Repetitions)
@@ -61,7 +61,8 @@ function [AudioDataSet] = playRec(f1,f2,Time,Device,Repetitions)
     Duracion = length(Promedio)*(Fs^(-1));
     
     AudioDataSet{1} = struct('FileName',' Recorded Signal' ,'amplitudvector', Promedio ,'SampleRate',Fs,'Duracion', Duracion);
-   
+    Promedio = AudioDataSet;
+    
     release(fileReader)
     release(fileWriter)
     release(devicePlayRec)

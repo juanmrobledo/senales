@@ -1,39 +1,40 @@
-function [SuavizadodB] = suavizado(Signal)
+function [SuavizadodB] = suavizado(Ir)
 %%  Funcion suavizado
 %
 %   [SuavizadodB] = suavizado(Signal)
 %
-%   Suaviza la seï¿½al para poder ser analizada por la funciÃ³n AllParameters. 
+%   Suaviza la señal para poder ser analizada por la funcion AllParameters. 
 %
 %   Entrada:
-%       Audio = Estructura de la seï¿½al. 
+%       Audio = Estructura de la señal. 
 %   Salida:
 %       SuavizadodB = Envolvente suavizada con amlitud normalizada en dB
-
-
-
-%% Hilbert
     
-    Matriz = zeros(length(Signal{1}.amplitudvector),length(Signal));
-    a = 1;
-    
-    for i=1:length(Signal)
-        Matriz(:, a) = Signal{a}.amplitudvector;
-        
-        a = a + 1;
+    %% Correccion para tipo de variable Cell
+    if class(Ir)=='cell'
+    Ir = Ir{1}.amplitudvector;
     end
+
+%% Hilbert    
     
-    Audio = mean(Matriz,2);    
-    myHilbert = hilbert(Audio);
-    Analitica = Audio + 1i*myHilbert;   %Funcion Analitica
+    myHilbert = hilbert(Ir);
+    Analitica = Ir + 1i*myHilbert;   %Funcion Analitica
     Suavizado = abs(Analitica);
+    Suavizado = medMov(Suavizado);
+    
     
     
     %% Shroeder
-    Shroeder = cumsum(Suavizado(1:end).^2,'reverse');
+    Shroeder = cumsum(Suavizado.^2,'reverse');
 
 %% Salida Normalizada
     SuavizadodB = 10*log10(Shroeder/max(Shroeder));
 
+
+end
+function htmm = medMov(Ir)
+
+    movavgWindow = dsp.MovingAverage(19);
+    htmm = movavgWindow(Ir);
 
 end

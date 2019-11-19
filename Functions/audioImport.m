@@ -11,20 +11,22 @@ function [AudioDataSet] = audioImport()
 %   Output: Celda de n filas, y 2 columnas
 
 
-%% Generacion de DataSet
+        %% Generacion de DataSet
 
         [filename] = uigetfile('*.wav','Select the INPUT DATA FILE(s)','MultiSelect','on');
         
         if class(filename) == 'char'
+            
             [x,fs] = audioread(filename);
             info = audioinfo(filename);
             AudioDataSet{1} = struct('FileName',filename ,...
                 'amplitudvector',x ,'SampleRate',fs,'Duracion', info.Duration);
+            
         elseif class(filename) == 'cell'
             %% Seteo de Datos
             i = 1;
         
-            %% Inicio de BucleT
+            %% Inicio de Bucle
        
             while i<=length(filename)
                 
@@ -39,8 +41,6 @@ function [AudioDataSet] = audioImport()
                 i = i + 1;
             end
         end
-            
-    
 end
 
    
