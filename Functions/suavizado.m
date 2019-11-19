@@ -23,8 +23,6 @@ Ir = Signal.amplitudvector;
 %% Media Movil
     Suavizado = medMov(Suavizado);
     
-    
-    
     %% Shroeder
     Shroeder = cumsum(Suavizado.^2,'reverse');
 

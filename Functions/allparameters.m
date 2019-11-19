@@ -84,12 +84,14 @@ end
 function [C80,D50] = energeticos(SignalIr,fm)
 %%  Parametros energeticos
 %       Calcula los parametros energ?ticos de claridad y definici?n
-%       seg?n ISO-3382. 
+%       seg?n ISO-3382.
+
     SignalIr = SignalIr.amplitudvector;
+    
     p = SignalIr.^2;         %Respuesta al Impulso al Cuadrado
     Ms50 = (0.05*fm);  %Redondeo a 50ms 
     Ms80 = (0.08*fm);  %Redondeo a 80ms
     
     C80 = 10*log10(trapz(p(1:Ms80))/trapz(p(Ms80:end)));    
-    D50 = (sum(p(1:Ms50))/sum(p(1:end))); 
+    D50 = 100*(sum(p(1:Ms50))/sum(p(1:end))); 
 end
