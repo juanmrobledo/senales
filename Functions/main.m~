@@ -11,18 +11,12 @@ function [Suavizada, Regresion, Parametros] = main (Signal)
 
 
 load('Coeficientesdefiltros.mat')
-Suavizada = filtSuav(Signal);
-Regresion = regLin(Suavizada);
-Parametros = calcPar(Suavizada);
 
-
-end
+Suavizada = struct('General', Signal.amplitudvector, 'Tercio', [0], 'Octava', [0]);
+Suavizada.Tercio = cell(1,29);
+Suavizada.Octava = cell(1,10);
 
     function Suavizada = filtSuav(Signal)
-
-        Suavizada = struct('General', Signal.amplitudvector, 'Tercio', [0], 'Octava', [0]);
-        Suavizada.Tercio = cell(1,29);
-        Suavizada.Octava = cell(1,10);
 
 for i=1:29
     Suavizada.Tercio{1,i} = filtfilt(terFiltBank{i,2},Signal.amplitudvector);
@@ -57,8 +51,10 @@ clear octFiltBank terFiltBank
 
     end
 
-    function Regresion = regLin(Suavizada)
+    function Regresion = regLin(Signal)
 
+
+%% %%%%%%%%%    REGRESION LINEAL  %%%%%%%%%%%%%%
 
 %general
     x = 1:length(Suavizada.General);
@@ -86,19 +82,17 @@ clear octFiltBank terFiltBank
 
     end
 
-    function Parametros = calcPar(Suavizada)
+    function Parametros = calcPar(Signal)
+%% %%%%%%%% PARAMETROS %%%%%%%%%%%
 
 %Ajuste de dimension de matriz
-%     Tempo = Signal.Duracion*Signal.SampleRate;
-%     Tempo = zeros(1,Tempo);
-    
-    
+    Tempo = Signal.Duracion*Signal.SampleRate;
+    Tempo = zeros(1,Tempo);
 %general 
-
-% minDB = min(Suavizada.General);
-% Tempo = Tempo-abs(minDB);
-% Tempo(1:length(Suavizada.General)) = Suavizada.General;
-% Suavizada.General = Tempo;
+minDB = min(Suavizada.General);
+Tempo = Tempo-abs(minDB);
+Tempo(1:length(Suavizada.General)) = Suavizada.General;
+Suavizada.General = Tempo;
 
 [EDT,T20,T30,C80,D50] = allparameters(Suavizada.General);
 ParametrosGeneral = table(EDT,T20,T30,C80,D50,'RowNames',{'General'});
@@ -161,5 +155,7 @@ Bandas = {'25';'31.5';'40';'50';'63';'80';'100';'125';'160';'200';'250';'315';..
      ParametrosOctava = table(EDT,T20,C80,D50,'RowNames',Bandas);
      
     Parametros = struct('General', ParametrosGeneral, 'Tercio', ParametrosTercio, 'Octava', ParametrosOctava);
-    
-    end
+
+end
+
+
