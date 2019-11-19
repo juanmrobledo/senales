@@ -1,5 +1,5 @@
 
-function [EDT,T10,T20,T30,C80,D50] = allparameters(Suavizado,SignalIr)
+function [EDT,T20,T30,C80,D50] = allparameters(Suavizado,SignalIr)
 %%  Funcion allparameters
 %
 %   [EDT,T20,T30,C80,D50] = allparameters(Suavizado)
@@ -20,12 +20,12 @@ function [EDT,T10,T20,T30,C80,D50] = allparameters(Suavizado,SignalIr)
 %       D50 = Definicion de la voz (D50) [Porcentaje]
     
     fm = 44100;
-    [EDT,T10,T20,T30] = tr(Suavizado,fm);
+    [EDT,T20,T30] = tr(Suavizado,fm);
     [C80,D50] = energeticos(SignalIr,fm);
 end
 
 
-function [EDT,T10,T20,T30] = tr(Suavizado,fm)
+function [EDT,T20,T30] = tr(Suavizado,fm)
 %%  Tiempos de Reverberacionn
 %
 %   [EDT,T20,T30] = tr(Suavizado,fm)
@@ -56,14 +56,15 @@ function [EDT,T10,T20,T30] = tr(Suavizado,fm)
     EDT = 6*(x2EDT - x1EDT);
     
     %% T10
-    y2T10 = find(round(Suavizado) == round(max(Suavizado)-15),1,'first');    
+    y1EDT = Max0;
+    y2EDT = find(round(Suavizado) == round(max(Suavizado)-10),1,'first');    
 %     y2EDT = y2EDT(y2EDT > myMax);
 %     y2EDT = y2EDT(1);
     
-    x1T10 = x(myMax);
-    x2T10 = x(y2EDT);
+    x1EDT = x(y1EDT);
+    x2EDT = x(y2EDT);
     
-    T10 = 6*(x2T10 - x1T10);
+    EDT = 6*(x2EDT - x1EDT);
     
     %% T20
     
@@ -87,7 +88,7 @@ function [EDT,T10,T20,T30] = tr(Suavizado,fm)
     T30 = 2*(x2T30 - x1T30);
     
     %% T60
-    
+%     T60 = 'lpm';
     
 end
 
