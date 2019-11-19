@@ -65,6 +65,7 @@ function [Signal,Prom] = playRec(f1,f2,Time,Device,Repetitions)
     
     Signal = struct('amplitudvector', IR ,'SampleRate',Fs,'Duracion', Duracion);
     Prom = struct('amplitudvector', Promedio ,'SampleRate',Fs,'Duracion', Duracion);
+    
     release(fileReader)
     release(fileWriter)
     release(devicePlayRec)
