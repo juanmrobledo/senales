@@ -1,4 +1,4 @@
-function [Signal,Prom] = playRec(f1,f2,Time,Device,Repetitions)
+function [SignalIR,SignalProm] = playRec(f1,f2,Time,Device,Repetitions)
 %%   Funcion para Reproducir y Grabar en simultaneo. playRec.
 %
 %   [Promedio] = playRec(f1,f2,Time,Device,Repetitions)
@@ -63,8 +63,8 @@ function [Signal,Prom] = playRec(f1,f2,Time,Device,Repetitions)
     [InvertedFilt, fs] = audioread("inverted.wav");
     IR = conv(Promedio, InvertedFilt);
     
-    Signal = struct('amplitudvector', IR ,'SampleRate',Fs,'Duracion', Duracion);
-    Prom = struct('amplitudvector', Promedio ,'SampleRate',Fs,'Duracion', Duracion);
+    SignalIR = struct('amplitudvector', IR ,'SampleRate',Fs,'Duracion', Duracion);
+    SignalProm = struct('amplitudvector', Promedio ,'SampleRate',Fs,'Duracion', Duracion);
     
     release(fileReader)
     release(fileWriter)

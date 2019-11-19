@@ -1,5 +1,5 @@
 
-function [EDT,T20,T30,C80,D50] = allparameters(Suavizado)
+function [EDT,T20,T30,C80,D50] = allparameters(Suavizado,SignalIr)
 %%  Funcion allparameters
 %
 %   [EDT,T20,T30,C80,D50] = allparameters(Suavizado)
@@ -21,7 +21,7 @@ function [EDT,T20,T30,C80,D50] = allparameters(Suavizado)
     
     fm = 44100;
     [EDT,T20,T30] = tr(Suavizado,fm);
-    [C80,D50] = energeticos(Suavizado,fm);
+    [C80,D50] = energeticos(SignalIr,fm);
 end
 
 
@@ -81,12 +81,12 @@ function [EDT,T20,T30] = tr(Suavizado,fm)
     
 end
 
-function [C80,D50] = energeticos(Suavizado,fm)
+function [C80,D50] = energeticos(SignalIr,fm)
 %%  Parametros energeticos
 %       Calcula los parametros energ?ticos de claridad y definici?n
 %       seg?n ISO-3382. 
-
-    p = Suavizado.^2;         %Respuesta al Impulso al Cuadrado
+    SignalIr = SignalIr.amplitudvector;
+    p = SignalIr.^2;         %Respuesta al Impulso al Cuadrado
     Ms50 = (0.05*fm);  %Redondeo a 50ms 
     Ms80 = (0.08*fm);  %Redondeo a 80ms
     
