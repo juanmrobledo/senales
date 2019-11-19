@@ -1,5 +1,5 @@
 
-function [EDT,T20,T30,T60,C80,D50] = allparameters(Suavizado)
+function [EDT,T20,T30,C80,D50] = allparameters(Suavizado)
 %%  Funcion allparameters
 %
 %   [EDT,T20,T30,C80,D50] = allparameters(Suavizado)
@@ -20,12 +20,12 @@ function [EDT,T20,T30,T60,C80,D50] = allparameters(Suavizado)
 %       D50 = Definicion de la voz (D50) [Porcentaje]
     
     fm = 44100;
-    [EDT,T20,T30,T60] = tr(Suavizado,fm);
+    [EDT,T20,T30] = tr(Suavizado,fm);
     [C80,D50] = energeticos(Suavizado,fm);
 end
 
 
-function [EDT,T20,T30,T60] = tr(Suavizado,fm)
+function [EDT,T20,T30] = tr(Suavizado,fm)
 %%  Tiempos de Reverberacionn
 %
 %   [EDT,T20,T30] = tr(Suavizado,fm)
@@ -46,9 +46,9 @@ function [EDT,T20,T30,T60] = tr(Suavizado,fm)
     
     %% EDT
     y1EDT = Max0;
-    y2EDT = find(round(Suavizado) == round(max(Suavizado)-10));    
-    y2EDT = y2EDT(y2EDT > myMax);
-    y2EDT = y2EDT(1);
+    y2EDT = find(round(Suavizado) == round(max(Suavizado)-10),1,'first');    
+%     y2EDT = y2EDT(y2EDT > myMax);
+%     y2EDT = y2EDT(1);
     
     x1EDT = x(y1EDT);
     x2EDT = x(y2EDT);
@@ -57,9 +57,9 @@ function [EDT,T20,T30,T60] = tr(Suavizado,fm)
     
     %% T20
     
-    y2T20 = find(round(Suavizado) == round(max(Suavizado)-25));
-    y2T20 = y2T20(y2T20 > myMax);
-    y2T20 = y2T20(1);
+    y2T20 = find(round(Suavizado) == round(max(Suavizado)-25),1,'first');
+%     y2T20 = y2T20(y2T20 > myMax);
+%     y2T20 = y2T20(1);
     
     x1T20 = x(myMax);
     x2T20 = x(y2T20);
@@ -67,9 +67,9 @@ function [EDT,T20,T30,T60] = tr(Suavizado,fm)
     T20 = 3*(x2T20 - x1T20);
 
     %% T30
-    y2T30 = find(round(Suavizado) == round(max(Suavizado)-35));
-    y2T30 = y2T30(y2T30 > myMax);
-    y2T30 = y2T30(1);
+    y2T30 = find(round(Suavizado) == round(max(Suavizado)-35),1, 'first');
+%     y2T30 = y2T30(y2T30 > myMax);
+%     y2T30 = y2T30(1);
 
     x1T30 = x(myMax);
     x2T30 = x(y2T30);
@@ -77,7 +77,7 @@ function [EDT,T20,T30,T60] = tr(Suavizado,fm)
     T30 = 2*(x2T30 - x1T30);
     
     %% T60
-    T60 = 'lpm';
+%     T60 = 'lpm';
     
 end
 

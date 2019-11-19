@@ -1,25 +1,26 @@
-function [SuavizadodB] = suavizado(Ir)
+function [SuavizadodB] = suavizado(Signal)
 %%  Funcion suavizado
 %
 %   [SuavizadodB] = suavizado(Signal)
 %
-%   Suaviza la señal para poder ser analizada por la funcion AllParameters. 
+%   Suaviza la seï¿½al para poder ser analizada por la funcion AllParameters. 
 %
 %   Entrada:
-%       Audio = Estructura de la señal. 
+%       Audio = Estructura de la seï¿½al. 
 %   Salida:
 %       SuavizadodB = Envolvente suavizada con amlitud normalizada en dB
     
-    %% Correccion para tipo de variable Cell
-    if class(Ir)=='cell'
-    Ir = Ir{1}.amplitudvector;
-    end
+    
+
+Ir = Signal.amplitudvector;
 
 %% Hilbert    
     
     myHilbert = hilbert(Ir);
     Analitica = Ir + 1i*myHilbert;   %Funcion Analitica
     Suavizado = abs(Analitica);
+
+%% Media Movil
     Suavizado = medMov(Suavizado);
     
     

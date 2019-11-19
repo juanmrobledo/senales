@@ -1,4 +1,4 @@
-function [AudioDataSet] = audioImport()
+function [Signal] = audioImport()
 %%  Funcion audioImport 
 % 
 %     [AudioDataSet] = audioImport()
@@ -23,12 +23,10 @@ function [AudioDataSet] = audioImport()
                 'amplitudvector',x ,'SampleRate',fs,'Duracion', info.Duration);
             
         elseif class(filename) == 'cell'
-        end
             %% Seteo de Datos
             i = 1;
-        
+            MAX = 99999999999999999999999999999;
             %% Inicio de Bucle
-            For i=1:length(filname)
         
             while i<=length(filename)
                 
@@ -36,13 +34,34 @@ function [AudioDataSet] = audioImport()
             
                 [x,fs] = audioread(Filename);
                 info = audioinfo(Filename);
+                
+                MaxX = length(x);
+                
+                if MaxX < MAX
+                    MAX = MaxX;
+                end
+                
 
-                AudioDataSet{i} = struct('FileName',Filename ,'amplitudvector',x ,...
-                    'SampleRate',fs,'Duracion', info.Duration);
-           
+                
+                AudioDataSet{i} = x;
+                
                 i = i + 1;
             end
-        end
+        end     % if linea 18
+        % Buscar longitud maxima del archivo externo
+        
+for i=1:length(filename)
+    
+    memoTemp = AudioDataSet{i};
+    memoTemp((length(memoTemp)+1):MAX) = zeros(1,((MAX-length(memoTemp)+1)));
+    Matriz(:, i) = memoTemp;
+    
+end
+    Promedio = mean(Matriz,2); %Promedio de todas los archivos externos
+    Duracion = length(Promedio)*(fs^(-1));
+    
+                    Signal = struct('amplitudvector',Promedio ,...
+                    'SampleRate',fs,'Duracion', Duracion);
 end
 
    
