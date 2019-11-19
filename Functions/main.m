@@ -1,16 +1,14 @@
 function [Suavizada, Regresion, Parametros] = main (Signal)
 
-%Se obtiene un array de la señal promediada
+%Se ingresa con un array de la señal promediada
 %Se crea un handle con la señal:
 %  Signal.amplitudvector = array digital
 %  Signal.SampleRate = Frecuencia de muestreo
 %  Signal.Time = Duracion de IR
 
-%%%%%%%%%%%%%%%%%%%%%%%   ADQUISICION   %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%   FILTRADO   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%SenalSuavizada = suavizado(Signal);
 
 load('Coeficientesdefiltros.mat')
 
@@ -91,50 +89,52 @@ Suavizada.General = Tempo;
 [EDT,T20,T30,C80,D50] = allparameters(Suavizada.General);
 ParametrosGeneral = table(EDT,T20,T30,C80,D50,'RowNames',{'General'});
 
-% %tercio
-% 
-% Bandas = {'25';'31.5';'40';'50';'63';'80';'100';'125';'160';'200';'250';'315';...
-%          '400';'500';'630';'800';'1000';'1250';'1600';'2000';'3500';'3150';...
-%          '4000';'5000';'6300';'8000';'10000';'12500';'16000'};
+%tercio
+
+Bandas = {'25';'31.5';'40';'50';'63';'80';'100';'125';'160';'200';'250';'315';...
+         '400';'500';'630';'800';'1000';'1250';'1600';'2000';'3500';'3150';...
+         '4000';'5000';'6300';'8000';'10000';'12500';'16000'};
 %         EDT = zeros(1,29);
 %         T20 = zeros(1,29);
 %         T30 = zeros(1,29);
 %         C80 = zeros(1,29);
 %         D50 = zeros(1,29);
-%     for i=1:29
+    for i=1:29
 %         
-%         minDB = min(Suavizada.Tercio{1,i});
+%         minDB = min(Suavizada.Tercio{i});
 %         Tempo = Tempo-abs(minDB);
-%         Tempo(1:length(Suavizada.Tercio{1,i})) = Suavizada.Tercio{1,i};
+%         Tempo(1:length(Suavizada.Tercio{1,i})) = Suavizada.Tercio{i};
 %         Suavizada.Tercio{1,i} = Tempo;
 %         
-%         [a_EDT,b_T20,c_T30,d_C80,e_D50] = allparameters(Suavizada.Tercio{1,i});
-%         EDT(i) = a_EDT;
-%         T20(i) = b_T20;
-%         T30(i) = c_T30;
-%         C80(i) = d_C80;
-%         D50(i) = e_D50;
-%         
-%     end   
-%     
-%      ParametrosTercio = table(EDT,T20,C80,D50,'RowNames',Bandas);
-%octava
+        [a_EDT,b_T20,c_T30,d_C80,e_D50] = allparameters(Suavizada.Tercio{i});
+        EDT(i) = a_EDT;
+        T20(i) = b_T20;
+        T30(i) = c_T30;
+        C80(i) = d_C80;
+        D50(i) = e_D50;
+        
+    end   
+    
+     ParametrosTercio = table(EDT,T20,C80,D50,'RowNames',Bandas);
 
 
+
+
+% octava
 
      Bandas = {'31.5';'63';'125';'250';'500';'1000';'2000';'4000';'8000';'16000'};
-        EDT = zeros(1,10);
-        T20 = zeros(1,10);
-        T30 = zeros(1,10);
-        C80 = zeros(1,10);
-        D50 = zeros(1,10);
+%         EDT = zeros(1,10);
+%         T20 = zeros(1,10);
+%         T30 = zeros(1,10);
+%         C80 = zeros(1,10);
+%         D50 = zeros(1,10);
         
     for i=1:10
         
-        minDB = min(Suavizada.Octava{1,i});
-        Tempo = Tempo-abs(minDB);
-        Tempo(1:length(Suavizada.Octava{1,i})) = Suavizada.Octava{1,i};
-        Suavizada.Octava{1,i} = Tempo;
+%         minDB = min(Suavizada.Octava{1,i});
+%         Tempo = Tempo-abs(minDB);
+%         Tempo(1:length(Suavizada.Octava{1,i})) = Suavizada.Octava{1,i};
+%         Suavizada.Octava{1,i} = Tempo;
         
         [a_EDT,b_T20,c_T30,d_C80,e_D50] = allparameters(Suavizada.Octava{1,i});
         EDT(i) = a_EDT;
