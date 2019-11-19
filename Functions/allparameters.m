@@ -27,13 +27,6 @@ end
 
 %%  Tiempos de reverberacion
 function [EDT,T20,T30] = tr(Suavizado)
-%       Esta funcion es una adaptacion de la funcion calcular_parametros,
-%       creada para la asignatura Se�ales y Sistemas durante 
-%       el 2do cuatrimestre de 2018.
-%       Autoria: Corina Castelli, Nahuel Passano, Agustin Espindola, Matias
-%       Lareo
-
-
 %% Configuracion de Datos
         fm = 44100;
     x = 0:1/fm:(length(Suavizado)-1)/fm;
@@ -80,14 +73,14 @@ function [EDT,T20,T30] = tr(Suavizado)
     T20 = 3*(x2T20 - x1T20);
 
     %% T30
-    y2T30 = find(round(Suavizado) <= round(max(Suavizado)-35),1, 'first');
+    y2T30 = find(round(Suavizado) == round(max(Suavizado)-35),1, 'first');
 %     y2T30 = y2T30(y2T30 > myMax);
 %     y2T30 = y2T30(1);
 
     x1T30 = x(myMax);
     x2T30 = x(y2T30);
 
-    T30 = round(2*(x2T30 - x1T30));
+    T30 = 2*(x2T30 - x1T30);
 end
 
 function [C80,D50] = energeticos(Signal)

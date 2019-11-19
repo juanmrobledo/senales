@@ -117,7 +117,7 @@ Bandas = {'25','31.5','40','50','63','80','100','125','160','200','250','315',..
          '4000','5000','6300','8000','10000','12500','16000'};
         EDT = zeros(1,29);
         T20 = zeros(1,29);
-        T30 = zeros(1,29);
+%        T30 = zeros(1,29);
 %         T60 = zeros(1,29);
         C80 = zeros(1,29);
         D50 = zeros(1,29);
@@ -131,7 +131,7 @@ Bandas = {'25','31.5','40','50','63','80','100','125','160','200','250','315',..
         [a_EDT,b_T20,c_T30,e_C80,f_D50] = allparameters(Suavizada.Tercio{i},Filtrado.Tercio{i});
         EDT(i) = a_EDT;
         T20(i) = b_T20;
-        T30(i) = c_T30;
+  %      T30(i) = c_T30;
 %         T60(i) = d_T60;
         C80(i) = e_C80;
         D50(i) = f_D50;
@@ -139,11 +139,11 @@ Bandas = {'25','31.5','40','50','63','80','100','125','160','200','250','315',..
     end   
         EDT = EDT';
         T20 = T20';
-        T30 = T30';
+  %      T30 = T30';
 %         T60 = T60';
         C80 = C80';
         D50 = D50';
-     ParametrosTercio = table(EDT,T20,T30,C80,D50,'RowNames',Bandas');
+     ParametrosTercio = table(EDT,T20,C80,D50,'RowNames',Bandas');
 
 
 
@@ -153,7 +153,7 @@ Bandas = {'25','31.5','40','50','63','80','100','125','160','200','250','315',..
      Bandas = {'31.5','63','125','250','500','1000','2000','4000','8000','16000'};
         EDT = zeros(1,10);
         T20 = zeros(1,10);
-        T30 = zeros(1,10);
+  %      T30 = zeros(1,10);
 %         T60 = zeros(1,10);
         C80 = zeros(1,10);
         D50 = zeros(1,10);
@@ -165,10 +165,10 @@ Bandas = {'25','31.5','40','50','63','80','100','125','160','200','250','315',..
 %         Tempo(1:length(Suavizada.Octava{1,i})) = Suavizada.Octava{1,i};
 %         Suavizada.Octava{1,i} = Tempo;
         
-         [a_EDT,b_T20,c_T30,d_T60,e_C80,f_D50] = allparameters(Suavizada.Octava{1,i},Filtrado.Octava{1,i});
+         [a_EDT,b_T20,c_T30,e_C80,f_D50] = allparameters(Suavizada.Octava{1,i},Filtrado.Octava{1,i});
         EDT(i) = a_EDT;
         T20(i) = b_T20;
-        T30(i) = c_T30;
+  %      T30(i) = c_T30;
 %         T60(i) = d_T60;
         C80(i) = e_C80;
         D50(i) = f_D50;
@@ -176,11 +176,11 @@ Bandas = {'25','31.5','40','50','63','80','100','125','160','200','250','315',..
     end  
         EDT = EDT';
         T20 = T20';
-        T30 = T30';
+%        T30 = T30';
 %         T60 = T60';
         C80 = C80';
         D50 = D50';
-     ParametrosOctava = table(EDT,T20,T30,C80,D50,'RowNames',Bandas');
+     ParametrosOctava = table(EDT,T20,C80,D50,'RowNames',Bandas');
      
     Parametros = struct('General', ParametrosGeneral, 'Tercio', ParametrosTercio, 'Octava', ParametrosOctava);
     
