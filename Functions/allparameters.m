@@ -1,5 +1,5 @@
 
-function [EDT,T10,T20,T30,C80,D50] = allparameters(Suavizado,SignalIr)
+function [EDT,T10,T20,T30,T60,C80,D50] = allparameters(Suavizado,Signal)
 %%  Funcion allparameters
 %
 %   [EDT,T20,T30,C80,D50] = allparameters(Suavizado)
@@ -20,85 +20,71 @@ function [EDT,T10,T20,T30,C80,D50] = allparameters(Suavizado,SignalIr)
 %       D50 = Definicion de la voz (D50) [Porcentaje]
     
     fm = 44100;
-    [EDT,T10,T20,T30] = tr(Suavizado,fm);
-    [C80,D50] = energeticos(SignalIr,fm);
+    [EDT,T10,T20,T30,T60] = tr(Suavizado);
+    [C80,D50] = energeticos(Signal);
 end
 
 
-function [EDT,T10,T20,T30] = tr(Suavizado,fm)
-%%  Tiempos de Reverberacionn
-%
-%   [EDT,T20,T30] = tr(Suavizado,fm)
-%
-%   Calcula los tiempos de reverberaci?n T20, T30 y EDT 
-%	segunn norma ISO 3382.
+%%  Tiempos de reverberacion
+function [EDT,T10,T20,T30,T60] = tr(Suavizado)
+%       Esta funcion es una adaptacion de la funcion calcular_parametros,
+%       creada para la asignatura Seï¿½ales y Sistemas durante 
+%       el 2do cuatrimestre de 2018.
+%       Autoria: Corina Castelli, Nahuel Passano, Agustin Espindola, Matias
+%       Lareo
 
-%% Configuracion de Datos
-    x = 0:1/fm:(length(Suavizado)-1)/fm;
-    
-    
-    Max0 = find(round(Suavizado) == max(Suavizado));
-    Max0 = max(Max0);               %Muestra del Pico Maximo
-    
-    myMax = find(round(Suavizado) == round(max(Suavizado)-5));    
-    myMax = myMax(myMax > Max0);
-    myMax = myMax(1);                                      %Muestra del Pico Máximo - 5dB
-    
+    fm = 44100;
+    x_i = 0:1/fm:(length(Suavizado)-1)/fm;
+    y_i = Suavizado;
+
     %% EDT
-    y1EDT = Max0;
-    y2EDT = find(round(Suavizado) == round(max(Suavizado)-10),1,'first');    
-%     y2EDT = y2EDT(y2EDT > myMax);
-%     y2EDT = y2EDT(1);
-    
-    x1EDT = x(y1EDT);
-    x2EDT = x(y2EDT);
-    
-    EDT = 6*(x2EDT - x1EDT);
-    
-    %% T10
-    y2T10 = find(round(Suavizado) == round(max(Suavizado)-15),1,'first');    
-%     y2EDT = y2EDT(y2EDT > myMax);
-%     y2EDT = y2EDT(1);
-    
-    x1T10 = x(myMax);
-    x2T10 = x(y2EDT);
-    
-    T10 = 6*(x2T10 - x1T10);
-    
-    %% T20
-    
-    y2T20 = find(round(Suavizado) == round(max(Suavizado)-25),1,'first');
-%     y2T20 = y2T20(y2T20 > myMax);
-%     y2T20 = y2T20(1);
-    
-    x1T20 = x(myMax);
-    x2T20 = x(y2T20);
+    x1 = find(y_i <= (max(y_i)-5),1,'first');
+    x2 = find(y_i <= (max(y_i)-35),1,'first');
+    x_i = x_i(x1:x2);
+    y_i = y_i(x1:x2);
+    [~,a1] = cuadMin(x_i,y_i);
+    EDT = (-60)/a1;
 
-    T20 = 3*(x2T20 - x1T20);
+    %% T10
+    x1 = find(y_i <= (max(y_i)-5),1,'first');
+    x2 = find(y_i <= (max(y_i)-35),1,'first');
+    x_i = x_i(x1:x2);
+    y_i = y_i(x1:x2);
+    [~,a1] = cuadMin(x_i,y_i);
+    T10 = (-60)/a1;
+
+    %% T20
+    x1 = find(y_i <= (max(y_i)-5),1,'first');
+    x2 = find(y_i <= (max(y_i)-35),1,'first');
+    x_i = x_i(x1:x2);
+    y_i = y_i(x1:x2);
+    [~,a1] = cuadMin(x_i,y_i);
+    T20 = (-60)/a1;
 
     %% T30
-    y2T30 = find(round(Suavizado) == round(max(Suavizado)-35),1, 'first');
-%     y2T30 = y2T30(y2T30 > myMax);
-%     y2T30 = y2T30(1);
-
-    x1T30 = x(myMax);
-    x2T30 = x(y2T30);
-
-    T30 = 2*(x2T30 - x1T30);
+    x1 = find(y_i <= (max(y_i)-5),1,'first');
+    x2 = find(y_i <= (max(y_i)-35),1,'first');
+    x_i = x_i(x1:x2);
+    y_i = y_i(x1:x2);
+    [~,a1] = cuadMin(x_i,y_i);
+    T30 = (-60)/a1;
     
     %% T60
-    
-    
+    x1 = find(y_i <= (max(y_i)-5),1,'first');
+    x2 = find(y_i <= (max(y_i)-65),1,'first');
+    x_i = x_i(x1:x2);
+    y_i = y_i(x1:x2);
+    [~,a1] = cuadMin(x_i,y_i);
+    T60 = (-60)/a1;
 end
 
-function [C80,D50] = energeticos(SignalIr,fm)
+function [C80,D50] = energeticos(Signal)
 %%  Parametros energeticos
 %       Calcula los parametros energ?ticos de claridad y definici?n
 %       seg?n ISO-3382.
-
-    SignalIr = SignalIr.amplitudvector;
+    fm = 44100;
     
-    p = SignalIr.^2;         %Respuesta al Impulso al Cuadrado
+    p = Signal.^2;         %Respuesta al Impulso al Cuadrado
     Ms50 = (0.05*fm);  %Redondeo a 50ms 
     Ms80 = (0.08*fm);  %Redondeo a 80ms
     

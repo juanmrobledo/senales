@@ -23,8 +23,13 @@ Ir = Signal.amplitudvector;
 %% Media Movil
     Suavizado = medMov(Suavizado);
     
+    %% Limite por Lundeby
+%     lim = lundeby(Signal);
+    
     %% Shroeder
-    Shroeder = cumsum(Suavizado.^2,'reverse');
+%     Shroeder(lim:-1:1) = cumsum(Suavizado(1:lim).^2,'reverse')/sum(Suavizado.^2);
+    Shroeder= cumsum(Suavizado.^2,'reverse');
+
 
 %% Salida Normalizada
     SuavizadodB = 10*log10(Shroeder/max(Shroeder));
