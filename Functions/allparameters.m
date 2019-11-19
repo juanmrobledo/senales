@@ -1,5 +1,5 @@
 
-function [EDT,T20,T30,T60,C80,D50] = allparameters(Suavizado)
+function [EDT,T20,T30,T60,C80,D50] = allparameters(Suavizado,IR)
 %%  Funcion allparameters
 %
 %   [EDT,T20,T30,C80,D50] = allparameters(Suavizado)
@@ -21,7 +21,7 @@ function [EDT,T20,T30,T60,C80,D50] = allparameters(Suavizado)
     
     fm = 44100;
     [EDT,T20,T30,T60] = tr(Suavizado,fm);
-    [C80,D50] = energeticos(Suavizado,fm);
+    [C80,D50] = energeticos(IR,fm);
 end
 
 

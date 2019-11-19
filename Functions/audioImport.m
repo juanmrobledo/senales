@@ -23,13 +23,11 @@ function [AudioDataSet] = audioImport()
                 'amplitudvector',x ,'SampleRate',fs,'Duracion', info.Duration);
             
         elseif class(filename) == 'cell'
-        end
             %% Seteo de Datos
             i = 1;
         
             %% Inicio de Bucle
-            For i=1:length(filname)
-        
+            i = 1;
             while i<=length(filename)
                 
                 Filename = filename{i}; %Variable con nombre del Archivo
@@ -42,7 +40,6 @@ function [AudioDataSet] = audioImport()
            
                 i = i + 1;
             end
-        end
 end
 
    
