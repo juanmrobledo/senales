@@ -1,5 +1,5 @@
 
-function [EDT,T10,T20,T30,T60,C80,D50] = allparameters(Suavizado,Signal)
+function [EDT,T10,T20,T30,T60,C80,D50] = allparameters(Suavizado,SignalIr)
 %%  Funcion allparameters
 %
 %   [EDT,T20,T30,C80,D50] = allparameters(Suavizado)
@@ -20,13 +20,13 @@ function [EDT,T10,T20,T30,T60,C80,D50] = allparameters(Suavizado,Signal)
 %       D50 = Definicion de la voz (D50) [Porcentaje]
     
     fm = 44100;
-    [EDT,T10,T20,T30,T60] = tr(Suavizado);
-    [C80,D50] = energeticos(Signal);
+    [EDT,T10,T20,T30,T60] = tr(Suavizado,fm);
+    [C80,D50] = energeticos(SignalIr,fm);
 end
 
 
 %%  Tiempos de reverberacion
-function [EDT,T10,T20,T30,T60] = tr(Suavizado)
+function [EDT,T10,T20,T30,T60] = tr(Suavizado,fm)
 %       Esta funcion es una adaptacion de la funcion calcular_parametros,
 %       creada para la asignatura Se�ales y Sistemas durante 
 %       el 2do cuatrimestre de 2018.
@@ -78,13 +78,14 @@ function [EDT,T10,T20,T30,T60] = tr(Suavizado)
     T60 = (-60)/a1;
 end
 
-function [C80,D50] = energeticos(Signal)
+function [C80,D50] = energeticos(Signal,fm)
 %%  Parametros energeticos
 %       Calcula los parametros energ?ticos de claridad y definici?n
 %       seg?n ISO-3382.
     fm = 44100;
+    SignalIr = SignalIr.amplitudvector;
     
-    p = Signal.^2;         %Respuesta al Impulso al Cuadrado
+    p = Signalamplitudvector.^2;         %Respuesta al Impulso al Cuadrado
     Ms50 = (0.05*fm);  %Redondeo a 50ms 
     Ms80 = (0.08*fm);  %Redondeo a 80ms
     
