@@ -1,10 +1,10 @@
 function [IR, fs] = impulseResponse(Signal)
-%%   Función impulseResponse
+%%   Funciï¿½n impulseResponse
 %
 %   [IR, fs] = impulseResponse(Signal)
 %
 %   Devuelve la respuesta al impulso de un recinto
-%   a partir de la señal obtenida con playrec.
+%   a partir de la seï¿½al obtenida con playrec.
 
     %%
     
@@ -16,10 +16,8 @@ function [IR, fs] = impulseResponse(Signal)
     end
     
     Audio = mean(Matriz,2);    
-    [InvertedFilt, fs] = audioread("inverted.wav");
     
     
-    IR = conv(Audio, InvertedFilt);
     
 end
 

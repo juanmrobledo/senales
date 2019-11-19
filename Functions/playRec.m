@@ -1,4 +1,4 @@
-function [Promedio] = playRec(f1,f2,Time,Device,Repetitions)
+function [Signal] = playRec(f1,f2,Time,Device,Repetitions)
 %%   Funcion para Reproducir y Grabar en simultaneo. playRec.
 %
 %   [Promedio] = playRec(f1,f2,Time,Device,Repetitions)
@@ -16,7 +16,7 @@ function [Promedio] = playRec(f1,f2,Time,Device,Repetitions)
 %     Repetitions = Cantidad de veces que se ejecuta el playRec
 % 
 %     Salidas:
-%     Promedio = Promedio de todas las señales obtenidas.
+%     Promedio = Promedio de todas las seï¿½ales obtenidas.
 
 
 %% Objetos
@@ -60,9 +60,11 @@ function [Promedio] = playRec(f1,f2,Time,Device,Repetitions)
     Promedio = mean(Matriz,2); %Promedio de todas las tomas
     Duracion = length(Promedio)*(Fs^(-1));
     
-    AudioDataSet{1} = struct('FileName',' Recorded Signal' ,'amplitudvector', Promedio ,'SampleRate',Fs,'Duracion', Duracion);
-    Promedio = AudioDataSet;
+    [InvertedFilt, fs] = audioread("inverted.wav");
+    IR = conv(Promedio, InvertedFilt);
     
+    Signal = struct('FileName',' Recorded Signal' ,'amplitudvector', IR ,'SampleRate',Fs,'Duracion', Duracion);
+
     release(fileReader)
     release(fileWriter)
     release(devicePlayRec)
