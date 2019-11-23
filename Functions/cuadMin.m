@@ -35,24 +35,5 @@ function [a0,a1] = cuadMin(x,y)
     Y = a0 + a1*X;
     
     
- %% Visualizacion   
-%     disp('a0=');
-%     disp(a0);
-%     disp('a1=');
-%     disp(a1);
-%     disp('coef=');
-%     disp(coef);
-%         
-%     subplot(2,1,1); 
-%     plot(x,y); 
-%     title('Senal a Procesar');
-%     xlim([min(x) max(x)]);
-%     ylim([min(y) max(y)]);
-%     
-%     subplot(2,1,2); 
-%     plot(X,Y);
-%     title('Recta de Ajuste'); 
-%     xlim([min(x) max(x)]);
-%     ylim([min(y) max(y)]);
 %     
 end

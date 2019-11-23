@@ -7,10 +7,9 @@ function [octFiltBank,terFiltBank] = creatorFilter ()
 %   octava segun la norma IRAM4081/77.
 
 
-%% Frecuencias centraltes nominales por INTI Procedimiento especifico: PEA11,
-% IRAM 4081/77
-octavaCentralNominal = [31.5 63 125 250 500 1000 2000 4000 8000 16000];
-tercioCentralNominal = [25 31.5 40 50 63 80 100 125 160 200 250 315 400 500 630 800 1000 1250 1600 2000 3500 3150 4000 5000 6300 8000 10000 12500 16000];
+%% Frecuencias centraltes bajo norma IEC 61260
+octavaCentralNominal = [125 250 500 1000 2000 4000 8000 ];
+tercioCentralNominal = [125 160 200 250 315 400 500 630 800 1000 1250 1600 2000 3150 3500 4000 5000 6300 8000];
 fs = 44100;
 
 %% Generacion de coeficientes para filtros de Octava
@@ -21,11 +20,7 @@ fs = 44100;
             lowBand = octavaCentralNominal(i)/2^(1/2);
             upBand = octavaCentralNominal(i)*2^(1/2);
             
-            if fs == 44100 
-                if upBand > 22050
-                    upBand = 22050;
-                end
-            end
+
             
             octFiltBank{i,1} = octavaCentralNominal(i);  
             octFiltBank{i,2} = designfilt('bandpassiir', ...

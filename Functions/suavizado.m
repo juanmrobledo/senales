@@ -1,4 +1,4 @@
-function [SuavizadodB] = suavizado(Signal)
+function [SuavizadodB] = suavizado(Ir)
 %%  Funcion suavizado
 %
 %   [SuavizadodB] = suavizado(Signal)
@@ -12,7 +12,6 @@ function [SuavizadodB] = suavizado(Signal)
     
     
 
-Ir = Signal.amplitudvector;
 
 %% Hilbert    
     
