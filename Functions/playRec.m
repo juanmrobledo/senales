@@ -1,4 +1,4 @@
-function [SignalIR,SignalProm] = playRec(f1,f2,Time,Device,Repetitions)
+function [SignalIR] = playRec(f1,f2,Time,Device,Repetitions)
 %%   Funcion para Reproducir y Grabar en simultaneo. playRec.
 %
 %   [Promedio] = playRec(f1,f2,Time,Device,Repetitions)
