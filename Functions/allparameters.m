@@ -73,7 +73,7 @@ function [EDT,T20,T30] = tr(Suavizado)
     T20 = 3*(x2T20 - x1T20);
 
     %% T30
-    y2T30 = find(round(Suavizado) == round(max(Suavizado)-35),1, 'first');
+    y2T30 = find(round(Suavizado) == round(max(Suavizado)-30),1, 'first');
 %     y2T30 = y2T30(y2T30 > myMax);
 %     y2T30 = y2T30(1);
 
