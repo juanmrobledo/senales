@@ -26,12 +26,7 @@ function [SuavizadodB] = suavizado(Ir)
    lim = lundeby(Ir);
     
     %% Shroeder
-    try
-   Shroeder(1:lim) = cumsum(Suavizado(1:lim).^2,'reverse');
-    catch
     Shroeder= cumsum(Suavizado.^2,'reverse');
-    warning('No se pudo aplicar Lundeby satisfactoriamente. Se realiza Shroeder sin limite de Lundeby')
-
 %% Salida Normalizada
     SuavizadodB = 10*log10(Shroeder/max(Shroeder));
 
