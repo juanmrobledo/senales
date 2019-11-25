@@ -23,7 +23,7 @@ function [SuavizadodB] = suavizado(Ir)
     Suavizado = medMov(Suavizado);
     
     %% Limite por Lundeby
-   lim = lundeby(Ir);
+ %  lim = lundeby(Ir);
     
     %% Shroeder
     Shroeder= cumsum(Suavizado.^2,'reverse');
