@@ -19,7 +19,6 @@ function [EDT,T10,T20,T30,C80,D50] = allparameters(Suavizado,Signal)
 %       C50 = Claridad de la Voz (C50) [dB]
 %       D50 = Definicion de la voz (D50) [Porcentaje]
     
-    fm = 44100;
     [EDT,T10,T20,T30] = tr(Suavizado);
     [C80,D50] = energeticos(Signal);
 end
@@ -28,7 +27,7 @@ end
 %%  Tiempos de reverberacion
 function [EDT,T10,T20,T30] = tr(Suavizado)
 %% Configuracion de Datos
-        fm = 44100;
+    fm = 44100;
     x = 0:1/fm:(length(Suavizado)-1)/fm;
 
 
@@ -50,7 +49,7 @@ function [EDT,T10,T20,T30] = tr(Suavizado)
 
     %% T10
 
-    y2T10 = find(round(Suavizado-5) <= round(max(Suavizado)-15),1,'first');    
+    y2T10 = find(round(Suavizado) <= round(max(Suavizado)-15),1,'first');    
 
     x1T10 = x(myMax);
     x2T10 = x(y2T10);
@@ -59,7 +58,7 @@ function [EDT,T10,T20,T30] = tr(Suavizado)
 
     %% T20
 
-    y2T20 = find(round(Suavizado-5) <= round(max(Suavizado)-25),1,'first');
+    y2T20 = find(round(Suavizado) <= round(max(Suavizado)-25),1,'first');
 
     x1T20 = x(myMax);
     x2T20 = x(y2T20);
@@ -79,12 +78,16 @@ function [C80,D50] = energeticos(Signal)
 %%  Parametros energeticos
 %       Calcula los parametros energ?ticos de claridad y definici?n
 %       seg?n ISO-3382.
+
     fm = 44100;
     
-    p = Signal.^2;         %Respuesta al Impulso al Cuadrado
-    Ms50 = (0.05*fm);  %Redondeo a 50ms 
-    Ms80 = (0.08*fm);  %Redondeo a 80ms
+    MaxSignal = max(Signal);            %Máximo del Impulso
+    MaxSignal = find(Signal == MaxSignal);
     
-    C80 = 10*log10(trapz(p(1:Ms80))/trapz(p(Ms80:end)));    
-    D50 = 100*(sum(p(1:Ms50))/sum(p(1:end))); 
+    p = Signal.^2;                  %Respuesta al Impulso al Cuadrado
+    Ms50 = (0.05*fm);               %Redondeo a 50ms 
+    Ms80 = (0.08*fm);               %Redondeo a 80ms
+    
+    C80 = 10*log10(trapz(p(MaxSignal:MaxSignal + Ms80))/trapz(p(MaxSignal + Ms80:end)));    
+    D50 = 100*(sum(p(MaxSignal:MaxSignal + Ms50))/sum(p(MaxSignal:end))); 
 end
