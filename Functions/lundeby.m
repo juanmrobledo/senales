@@ -17,8 +17,8 @@ function [cruce]=lundeby(Signal)
 %   creada para la Universidad de San Pablo por Bruno S. Masiero (2006). 
 %   https://www.mathworks.com/matlabcentral/fileexchange/11392-acmus-room-acoustic-parameters
 
-    Et = Signal.amplitudvector.^2;
-    fm = Signal.SampleRate;
+    Et = Signal.^2;
+    fm = 44100;
 
     %Calcula el nivel de ruido del 10% final de la se�al
 
@@ -92,10 +92,10 @@ function [cruce]=lundeby(Signal)
         end
     end
 
-    if encuentro > length(Et)     %En caso de que la se�al no alcance el nivel del ruido de fondo
+    if encuentro > length(Et)     %En caso de que la senal no alcance el nivel del ruido de fondo
         cruce = length(Et);       %en las muestras previstas, se considera el punto
     else                          %de encuentro la ultima muestra, que equivale a no
-        cruce = encuentro;        %truncar la se�al.
+        cruce = encuentro;        %truncar la senal.
     end
     cruce = abs(round(cruce));
 end

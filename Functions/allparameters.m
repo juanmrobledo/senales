@@ -50,7 +50,7 @@ function [EDT,T10,T20,T30] = tr(Suavizado)
 
     %% T10
 
-    y2T10 = find(round(Suavizado) <= round(max(Suavizado)-15),1,'first');    
+    y2T10 = find(round(Suavizado-5) <= round(max(Suavizado)-15),1,'first');    
 
     x1T10 = x(myMax);
     x2T10 = x(y2T10);
@@ -59,7 +59,7 @@ function [EDT,T10,T20,T30] = tr(Suavizado)
 
     %% T20
 
-    y2T20 = find(round(Suavizado) <= round(max(Suavizado)-25),1,'first');
+    y2T20 = find(round(Suavizado-5) <= round(max(Suavizado)-25),1,'first');
 
     x1T20 = x(myMax);
     x2T20 = x(y2T20);
@@ -67,7 +67,7 @@ function [EDT,T10,T20,T30] = tr(Suavizado)
     T20 = 3*(x2T20 - x1T20);
 
     %% T30
-    y2T30 = find(round(Suavizado) == round(max(Suavizado)-30),1, 'first');
+    y2T30 = find(round(Suavizado-5) == round(max(Suavizado)-35),1, 'first');
 
     x1T30 = x(myMax);
     x2T30 = x(y2T30);
