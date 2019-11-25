@@ -23,11 +23,11 @@ function [SuavizadodB] = suavizado(Ir)
     Suavizado = medMov(Suavizado);
     
     %% Limite por Lundeby
-    lim = lundeby(Ir);
+  %  lim = lundeby(Ir);
     
     %% Shroeder
-    Shroeder(1:lim) = cumsum(Suavizado(1:lim).^2,'reverse')/sum(Suavizado.^2);
-%     Shroeder= cumsum(Suavizado.^2,'reverse');
+%    Shroeder(1:lim) = cumsum(Suavizado(1:lim).^2,'reverse')/sum(Suavizado.^2);
+     Shroeder= cumsum(Suavizado.^2,'reverse');
 
 
 %% Salida Normalizada
