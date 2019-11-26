@@ -1,68 +1,85 @@
-function [SintIR] = SintIR(Time,OctOrTer)
-%%  Funcion Sintetizacion de respuesta al impulso, SintIR
+function SintIR(time,band)
+%Sintetizacion de respuesta al impulso
 % 
-%   [SintIR] = SintIR(Time,OctOrTer)
-%
 %   fcen = Frecuencia Central
 %   T60 = Tiempo de reverberacion
-%   Time = Duracion del impulso
+%   time = Duracion del impulso
 %   ri = Respuesta al impuslo
 %   pii = Decamiento exponencial en funcion del tiempo de rev.
-%   OctOrTer = Seleccion de Frecucuencias en Banda de octavas(oct) o tercio de
+%   band = Seleccion de Frecucuencias por banda de octavas(oct) o tercio de
 %   octava(ter)
-%  
-
 
 %% Seleccion de Frecucuencias en Banda de octavas(oct) o tercio de octava(ter)
-    if OctOrTer == 'oct'
+    if band == 'oct'
 
         %Frecuencias centrales nominales por banda de octavas
-        fcen = [63 125 250 500 1000 2000 4000 8000];
-
+        fcen = [125 250 500 1000 2000 4000 8000 ];
         %   T60 = Tiempo de Reverberacion (Referencia: Venturi,Farina. ArchitecturalAcoustics: Advanced Analysis ofRoom Acoustics:ISO 3382 ICA2013)
-        T60 = [1.02 1.07 1.34 1.39 1.22 1.17 1.08 0.76];
+        T60 = [1.07 1.34 1.39 1.22 1.17 1.08 0.76];
     
-    elseif OctOrTer == 'ter'
+    elseif band == 'ter'
         %Frecuencias centrales nominales por banda tercio de octavas
-        fcen =[20 25 31.5 40 50 63 80 100 125 160 200 250 315 400 500 630 800 1000 1250 1600 2250 3150 4000 5000 6000 8000 10000 12500 16000 20000];
-
+        fcen =[125 160 200 250 315 400 500 630 800 1000 1250 1600 2250 3150 4000 5000 6000 8000];
         %   T60 = Tiempo de Reverberacion 
-        T60 = [1.02 1.07 1.34 1.39 1.22 1.17 1.08 0.76 1.02 1.07 1.34 1.39 1.22 1.17 1.08 0.761 1.07 1.34 1.39 1.22 1.17 1.08 0.76 1.02 1.07 1.34 1.39 1.22 1.17 1.08];
+        T60 = [1.07 1.34 1.39 1.22 1.17 1.08 0.76 0.52 1.07 1.04 1.09 0.32 0.17 1.08 0.761 1.07 1.02 0.76];
 
     end
      
     
 %% Ajuste de tiempo y frecuencia de muestreo
-SampleRate = 44100;
-N = Time*SampleRate;
-t = linspace(0,Time,N);
-
-SintIR = cell(1,length(fcen)) %Banco de RI por fcen
-
-
-%% Decamiento exponencial en funcion del tiempo de rev
-for k=1:length(fcen)
-    pik = (-log(10^-3))./(T60(k)); 
-
-    %Respuesta al impulsoaudiowrite('SintIR.wav',SintIR,44100)
-    y_i = (exp(pik*t)).*cos(2*pi*fcen(k)*t);
-    SintIR{k} = flip(y_i);
-    SumIR = sum(SintIR);
+    SampleRate = 44100;
+    N = time*SampleRate;
+    t = linspace(0,time,N);                                       
+        
     
-%     subplot(2,1,1);
-%     plot(seconds(t),SintIR);
-%     title('Sintetizacion de Respuesta a UN Impulso');
-%     
-%     subplot(2,1,2); 
-%     plot(seconds(t),SumIR);
-%     title('Sintetizacion de Respuesta al Impulso');
-%    rplot(t,SumIR);
-end
+%% Decamiento exponencial en funcion del tiempo de rev
+    for k= 1:length(fcen)                                          
+        pik(k) = (-log(10^-3))./(T60(k)); 
 
+        %Respuesta al impulso
+        y_i{k} = flip((exp(pik(k)*t)).*cos(2*pi*fcen(k)*t)); %Genero un banco de IRs por frec. centrales           
+       
+    end
+    
 %% Sumatoria de IR
-for i = 1:length(fcen)
+
+    for i = 1:length(fcen)
+ 
+            Sumcell = cumsum(y_i{i});
+            Ajustecero = Sumcell - Sumcell(length(t));           
+            SintIR = Ajustecero./abs(max(Ajustecero));
+                    
+    end
+%% Grafica    
+     plot(seconds(t),SintIR);
+     title('Sintetizacion de Respuesta al Impulso');
+  
 %% Guardado de la respuesta al impulso en formato .wav
 %name = ['SintIR'];
 %audiowrite('SintIR.wav',SintIR,44100)
+     
+%% Chequeo    
+%      subplot(3,1,1);
+%      plot(seconds(t),escale{k});
+%      title('Sintetizacion de IR Primera ESCALA UN Impulso');
+%     
+%      subplot(3,1,2); 
+%      plot(seconds(t),SintIR);
+%      title('Sintetizacion de SUMA Respuesta al Impulso');
+% 
+%       subplot(3,1,3); 
+%       plot(seconds(t),Ajustecero);
+%       title('Sintetizacion de IR Suma con error');
 
+%             if OctOrTer == 'oct'
+%                 Ajustecero = y_i{1}+y_i{2}+y_i{3}+y_i{4}+y_i{5}+y_i{6}+y_i{7};
+%             
+%             elseif OctOrTer == 'ter'
+%                 Ajustecero = y_i{1}+y_i{2}+y_i{3}+y_i{4}+y_i{5}+y_i{6}+y_i{7}+y_i{8}+y_i{9}+y_i{10}+y_i{11}+y_i{12}+y_i{13}+y_i{14}+y_i{15}+y_i{16}+y_i{17}+y_i{18};
+%             end            
+
+%              Sumcell = cumsum(escale{k});
+%              Ajustecero = Sumcell./max(Sumcell); 
+%              SintIR = Ajustecero - Ajustecero(length(t));
+     
 end
