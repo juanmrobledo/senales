@@ -53,9 +53,6 @@ fs = 44100;
                                         'SampleRate',fs);       
    end
 
-     
- 
-%% ploteo de filtro de octava en 1k para ejemplo
 
 
 end
